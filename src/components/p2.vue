@@ -9,7 +9,7 @@
         <b-nav-item right>
           <img
             class="logout"
-            src="./../../img/Logout.png"
+            src="./../img_new/Logout.png"
             width="130"
             height="60"
             @click="logout()"
@@ -49,6 +49,10 @@
               <td>{{ReOI}}</td>
               <td>{{remaining_order}}</td>
             </tr>
+            <tr class="trpage">
+              <td>{{Remark_txt}}</td>
+              <td>{{remark}}</td>
+            </tr>
           </table>
         </b-col>
 
@@ -56,7 +60,7 @@
           <button>
             <img
               class="p2"
-              src="./../../img/StartJob.png"
+              src="./../img_new/StartJob.png"
               width="250"
               height="250"
               alt
@@ -65,7 +69,7 @@
           </button>
 
           <button>
-            <img src="./../../img/EndJob.png" width="250" height="60" alt @click="endjob()" />
+            <img src="./../img_new/EndJob.png" width="250" height="60" alt @click="endjob()" />
           </button>
         </b-col>
       </b-row>
@@ -87,6 +91,7 @@ export default {
       RoI: "จำนวนที่ผลิตเสร็จ (Received Order): ",
       ReOI: "จำนวนที่ค้างผลิต (Remaining Order): ",
       load: "Loading",
+      Remark_txt: "Remarks :",
 
       work_order: this.$store.state.wo,
       item_no: "loading",
@@ -95,15 +100,24 @@ export default {
       product_order: "loading",
       receive_order: "loading",
       remaining_order: "loading",
-      machine_id: this.$store.state.machine_id
+      machine_id: this.$store.state.machine_id,
+      remark: "loading"
     };
   },
   methods: {
     logout() {
       axios
         .post("http://206.189.36.97:3020/logout", {
+          // machine_id: this.$store.state.machine_id,
+          // operateId: this.$store.state.oid,
+          // count: 0,
+          // workorder: this.$store.state.wo,
+          // opn: this.$store.state.opn,
+          // employee_id: this.$store.state.oid
           machine_id: this.$store.state.machine_id,
-          operateId: this.$store.state.oid
+          employee_id: this.$store.state.oid,
+          workorder: this.$store.state.wo,
+          opn: this.$store.state.opn
         })
         .then(response => {
           console.log(response.data.message);
@@ -120,7 +134,9 @@ export default {
         .post("http://206.189.36.97:3020/ready", {
           machine_id: this.$store.state.machine_id,
           workorder: this.$store.state.wo,
-          routing: this.$store.state.rout
+          routing: this.$store.state.rout,
+          opn: this.$store.state.opn,
+          employee_id: this.$store.state.oid
         })
         .then(response => {
           //console.log(response.data.message[0]);
@@ -137,23 +153,31 @@ export default {
         });
     },
     status() {
+      console.log("status");
+      console.log(this.$store.state.wo);
       axios
         .post("http://206.189.36.97:3020/status", {
-          workorder: this.$store.state.wo,
-          routing: this.$store.state.rout
-          //email: "brainwaveelectronic@gmail.com",
-          //password: "password1"
+          workorder: this.$store.state.wo
         })
         .then(response => {
-          //console.log(response.data.message[0]);
+          console.log(response.data.message[0]);
           if (response.data.success == "success") {
             // this.item_no = response.data.message[0].id_txt;
             // this.item_name = response.data.message[0].address;
             this.item_no = response.data.message[0].itemNo;
             this.item_name = response.data.message[0].itemName;
-            this.product_order = response.data.message[0].productOrder;
-            this.receive_order = response.data.message[0].receiveOrder;
-            this.remaining_order = response.data.message[0].remainingOrder;
+            this.product_order = parseFloat(
+              Math.round(response.data.message[0].productOrder * 100) / 100
+            ).toFixed(2);
+            this.receive_order = parseFloat(
+              Math.round(response.data.message[0].receiveOrder * 100) / 100
+            ).toFixed(2);
+            this.remaining_order = parseFloat(
+              Math.round(response.data.message[0].remainingOrder * 100) / 100
+            ).toFixed(2);
+            this.rout = response.data.message[0].routing;
+            this.remark = response.data.message[0].remark;
+            this.$store.state.opn = response.data.message[0].opn;
           } else {
             alert(response.data.message);
           }
@@ -164,7 +188,10 @@ export default {
         .post("http://206.189.36.97:3020/stop", {
           workorder: this.$store.state.wo,
           machine_id: this.$store.state.machine_id,
-          routing: this.$store.state.rout
+          routing: this.$store.state.rout,
+          count: 0,
+          opn: this.$store.state.opn,
+          employee_id: this.$store.state.oid
           //   itemNo: this.item_no,
           //   itemName: this.item_name
           // //   po: this.product_order,

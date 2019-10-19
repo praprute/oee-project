@@ -5,10 +5,12 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
-        numdefect: 1,
         wo: "",
         rout: "",
         oid: "",
-        machine_id: "machineId01"
+        machine_id: "sensor01_1",
+        opn: ""
     }
 });
+
+//sensor01_1

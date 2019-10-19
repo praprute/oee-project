@@ -5,7 +5,6 @@ import defect from './components/p4.vue'
 import downtime from './components/p5.vue'
 import checkstatus from './components/checkstatus.vue'
 
-
 export const routes = [{
     path: "/",
     component: checkstatus

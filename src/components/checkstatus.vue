@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     checkstatus() {
-      axios
+      axios 
         .post("http://206.189.36.97:3020/checkStatus", {
           machine_id: this.$store.state.machine_id
         })
@@ -26,17 +26,22 @@ export default {
           if (response.data.status == "working") {
             this.$store.state.wo = response.data.workorder;
             this.$store.state.rout = response.data.routing;
-            this.$store.state.oid = response.data.operateId;
+            this.$store.state.oid = response.data.empId;
+            this.$router.push("/ready");
+          } else if (response.data.status == "running") {
+            this.$store.state.wo = response.data.workorder;
+            this.$store.state.rout = response.data.routing;
+            this.$store.state.oid = response.data.empId;
             this.$router.push("/ready");
           } else if (response.data.status == "defect") {
             this.$store.state.wo = response.data.workorder;
             this.$store.state.rout = response.data.routing;
-            this.$store.state.oid = response.data.operateId;
+            this.$store.state.oid = response.data.empId;
             this.$router.push("/defect");
           } else if (response.data.status == "downtime") {
             this.$store.state.wo = response.data.workorder;
             this.$store.state.rout = response.data.routing;
-            this.$store.state.oid = response.data.operateId;
+            this.$store.state.oid = response.data.empId;
             this.$router.push("/downtime");
           } else if (response.data.status == "Idle") {
             this.$router.push("/home");

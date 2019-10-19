@@ -5,7 +5,7 @@
         <b-nav-item>
           <img
             class="arrow"
-            src="./../../img/rightt-arrow.png"
+            src="./../img_new/rightt-arrow.png"
             width="50"
             height="50"
             @click="back()"
@@ -18,7 +18,7 @@
         <b-nav-item right>
           <img
             class="logout2"
-            src="./../../img/Logout.png"
+            src="./../img_new/Logout.png"
             width="130"
             height="60"
             @click="logout()"
@@ -58,6 +58,10 @@
               <td>{{ReOI}}</td>
               <td>{{remaining_order}}</td>
             </tr>
+            <tr class="trpage">
+              <td>{{Remark_txt}}</td>
+              <td>{{remark}}</td>
+            </tr>
           </table>
         </b-col>
 
@@ -65,7 +69,7 @@
           <button>
             <img
               class="p3"
-              src="./../../img/STOP.png"
+              src="./../img_new/เครื่องหยุด.png"
               width="250"
               height="250"
               alt
@@ -73,7 +77,7 @@
             />
           </button>
           <button>
-            <img src="./../../img/Defect.png" width="250" height="60" alt @click="defect()" />
+            <img src="./../img_new/Defect.png" width="250" height="60" alt @click="defect()" />
           </button>
         </b-col>
       </b-row>
@@ -95,6 +99,7 @@ export default {
       RoI: "จำนวนที่ผลิตเสร็จ (Received Order): ",
       ReOI: "จำนวนที่ค้างผลิต (Remaining Order): ",
       load: "Loading",
+      Remark_txt: "Remarks :",
 
       work_order: this.$store.state.wo,
       item_no: "loading",
@@ -103,25 +108,36 @@ export default {
       product_order: "loading",
       receive_order: "loading",
       remaining_order: "loading",
-      machine_id: this.$store.state.machine_id
+      machine_id: this.$store.state.machine_id,
+      remark: "loading",
+
+      intv: null
     };
   },
   methods: {
     update_sensor: function() {
-      setInterval(() => {
+      this.intv = setInterval(() => {
         axios
           .post("http://206.189.36.97:3020/status", {
-            workorder: this.$store.state.wo,
-            routing: this.$store.state.rout
+            workorder: this.$store.state.wo
           })
           .then(response => {
             //console.log(response.data.message);
             if (response.data.success == "success") {
               this.item_no = response.data.message[0].itemNo;
               this.item_name = response.data.message[0].itemName;
-              this.product_order = response.data.message[0].productOrder;
-              this.receive_order = response.data.message[0].receiveOrder;
-              this.remaining_order = response.data.message[0].remainingOrder;
+              this.product_order = parseFloat(
+                Math.round(response.data.message[0].productOrder * 100) / 100
+              ).toFixed(2);
+              this.receive_order = parseFloat(
+                Math.round(response.data.message[0].receiveOrder * 100) / 100
+              ).toFixed(2);
+              this.remaining_order = parseFloat(
+                Math.round(response.data.message[0].remainingOrder * 100) / 100
+              ).toFixed(2);
+              this.rout = response.data.message[0].routing;
+              this.remark = response.data.message[0].remark;
+              this.$store.state.opn = response.data.message[0].opn;
             } else {
               alert(response.data.message);
             }
@@ -129,9 +145,14 @@ export default {
       }, 1000);
     },
     stop_downtime() {
+      clearInterval(this.intv);
       axios
         .post("http://206.189.36.97:3020/downtime", {
-          machine_id: this.$store.state.machine_id
+          machine_id: this.$store.state.machine_id,
+          opn: this.$store.state.opn,
+          workorder: this.$store.state.wo,
+          downtime_code: null,
+          employee_id: this.$store.state.oid
         })
         .then(response => {
           console.log(response.data.message);
@@ -144,16 +165,21 @@ export default {
         });
     },
     defect() {
+      clearInterval(this.intv);
       this.$router.push("/defect");
     },
     back() {
+      clearInterval(this.intv);
       this.$router.push("/ready");
     },
     logout() {
+      clearInterval(this.intv);
       axios
         .post("http://206.189.36.97:3020/logout", {
           machine_id: this.$store.state.machine_id,
-          operateId: this.$store.state.oid
+          employee_id: this.$store.state.oid,
+          workorder: this.$store.state.wo,
+          opn: this.$store.state.opn
         })
         .then(response => {
           console.log(response.data.message);

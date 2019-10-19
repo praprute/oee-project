@@ -5,7 +5,7 @@
         <b-nav-item>
           <img
             class="arrow"
-            src="./../../img/rightt-arrow.png"
+            src="./../img_new/rightt-arrow.png"
             width="50"
             height="50"
             @click="backpage()"
@@ -19,28 +19,47 @@
 
     <b-container>
       <b-row>
-        <h4>จำนวนของเสีย (Defect) :</h4>
-        <button>
-          <img src="./../../img/Minus.png" width="35" height="35" alt @click="minus()" />
-        </button>
-        <h4 class="counter">{{count}}</h4>
-        <button>
-          <img src="./../../img/Plus.png" width="35" height="35" alt @click="plus()" />
-        </button>
+        <b-col md="4">
+          <h4>จำนวนของเสีย (Defect) :</h4>
+        </b-col>
+        <b-col md="4">
+          <b-form-input type="text" v-model="input" @input="onInputChange" @keypress="onlyNumber"></b-form-input>
+        </b-col>
+        <b-col md="4">
+          <b-form-checkbox v-model="checked" name="check-button" switch size="lg">
+            <b>(Keyboard: {{ checked }})</b>
+          </b-form-checkbox>
+        </b-col>
+        <SimpleKeyboard
+          v-show="checked"
+          @onChange="onChange"
+          @onKeyPress="onKeyPress"
+          :input="input"
+        />
+        <!-- <button>
+          <img
+            src="http://206.189.36.97:3020/oee/img/Plus.png"
+            width="35"
+            height="35"
+            alt
+            @click="plus()"
+          />
+        </button>-->
       </b-row>
-      <b-row>
+
+      <b-row v-show="!checked">
         <h3>สาเหตุของเสีย (Defect Issue) :</h3>
       </b-row>
-      <b-row>
+      <b-row v-show="!checked">
         <b-input v-model="codedefect"></b-input>
       </b-row>
 
-      <b-row>
+      <b-row v-show="!checked">
         <b-col md="6">
           <img
             class="confirmdefect"
-            @click="defectreason()"
-            src="./../../img/ตกลง.png"
+            @click="check_type_number()()"
+            src="./../img_new/ตกลง.png"
             width="220"
             height="60"
             alt
@@ -50,7 +69,7 @@
           <img
             class="cleardefect"
             @click="clearreason()"
-            src="./../../img/ล้างข้อมูล.png"
+            src="./../img_new/ล้างข้อมูล.png"
             width="220"
             height="60"
             alt
@@ -62,28 +81,39 @@
 </template>
 
 <script>
+import SimpleKeyboard from "./SimpleKeyboard";
 import axios from "axios";
 
 export default {
+  components: {
+    SimpleKeyboard
+  },
   data() {
     return {
-      count: this.$store.state.numdefect,
+      input: "",
       codedefect: "",
-      machine_id: this.$store.state.machine_id
+      machine_id: this.$store.state.machine_id,
+      checked: true
     };
   },
   methods: {
+    onlyNumber($event) {
+      let keyCode = $event.keyCode ? $event.keyCode : $event.which;
+      if (keyCode < 48 || keyCode > 57) {
+        $event.preventDefault();
+      }
+    },
+    onChange(input) {
+      this.input = input;
+    },
+    onKeyPress(button) {
+      console.log("button", button);
+    },
+    onInputChange(input) {
+      this.input = input.target.value;
+    },
     backpage() {
       this.$router.push("/running");
-    },
-    plus() {
-      this.count += 1;
-    },
-    minus() {
-      this.count -= 1;
-      if (this.count <= 1) {
-        this.count = 1;
-      }
     },
     startdefect() {
       axios
@@ -99,19 +129,30 @@ export default {
           }
         });
     },
+    check_type_number() {
+      if (isNaN(this.input)) {
+        alert("This not a number");
+        this.input = "";
+      } else {
+        this.defectreason();
+        this.input = "";
+      }
+    },
     defectreason() {
       axios
         .post("http://206.189.36.97:3020/updateDefect", {
           machine_id: this.$store.state.machine_id,
           issue: this.codedefect,
-          qty: this.count
+          qty: this.input,
+          opn: this.$store.state.opn,
+          operateId: this.$store.state.oid
         })
         .then(response => {
           console.log(response.data.message);
           if (response.data.success == "success") {
             console.log(response.data.message);
             this.codedefect = "";
-            this.count = 1;
+            this.input = "";
             this.$router.push("/running");
           } else {
             alert(response.data.message);
@@ -120,6 +161,7 @@ export default {
     },
     clearreason() {
       this.codedefect = "";
+      this.input = "";
     }
   },
   beforeMount() {
@@ -131,6 +173,44 @@ export default {
 <style lang="css">
 body {
   background-color: #f5f5f5;
+}
+
+button.btn.button_plus1 {
+  color: #f5f5f5;
+  background-color: #013894;
+  padding: 7px 20px 7px 20px;
+  margin-right: 2px;
+}
+button.btn.button_plus2 {
+  color: #f5f5f5;
+  background-color: #013894;
+  padding: 7px 15px 7px 15px;
+  margin-right: 2px;
+}
+button.btn.button_plus3 {
+  color: #f5f5f5;
+  background-color: #013894;
+  padding: 7px 10px 7px 10px;
+  margin-right: 2px;
+}
+button.btn.button_plus4 {
+  color: #f5f5f5;
+  background-color: #013894;
+  padding: 7px 20px 7px 20px;
+  margin-right: 2px;
+}
+button.btn.button_plus5 {
+  color: #f5f5f5;
+  background-color: #013894;
+  padding: 7px 20px 7px 20px;
+  margin-right: 2px;
+}
+button.btn.button_plus6 {
+  color: #f5f5f5;
+  background-color: #013894;
+  padding: 7px 17px 7px 17px;
+  margin-right: 2px;
+  margin-left: 15px;
 }
 
 a.nav-link h1 {

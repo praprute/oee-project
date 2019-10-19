@@ -5,7 +5,7 @@
         <b-nav-item>
           <img
             class="arrow"
-            src="./../../img/rightt-arrow.png"
+            src="./../img_new/rightt-arrow.png"
             width="50"
             height="50"
             @click="back()"
@@ -29,7 +29,7 @@
           <img
             class="confirmdefect"
             @click="downtimereason()"
-            src="./../../img/ตกลง.png"
+            src="./../img_new/ตกลง.png"
             width="220"
             height="60"
             alt
@@ -39,7 +39,7 @@
           <img
             class="cleardefect"
             @click="clearreason()"
-            src="./../../img/ล้างข้อมูล.png"
+            src="./../img_new/ล้างข้อมูล.png"
             width="220"
             height="60"
             alt
@@ -64,26 +64,29 @@ export default {
     back() {
       this.$router.push("/running");
     },
-    startdowntime() {
-      axios
-        .post("http://206.189.36.97:3020/downtime", {
-          machine_id: this.$store.state.machine_id
-        })
-        .then(response => {
-          console.log(response.data.message);
-          if (response.data.success == "success") {
-            console.log("send downtime");
-          } else {
-            alert(response.data.message);
-          }
-        });
-    },
+    // startdowntime() {
+    //   axios
+    //     .post("http://206.189.36.97:3020:3020:3020/downtime", {
+    //       machine_id: this.$store.state.machine_id
+    //     })
+    //     .then(response => {
+    //       console.log(response.data.message);
+    //       if (response.data.success == "success") {
+    //         console.log("send downtime");
+    //       } else {
+    //         alert(response.data.message);
+    //       }
+    //     });
+    // },
     downtimereason() {
       console.log(this.$store.state.machine_id);
       axios
         .post("http://206.189.36.97:3020/updateDowntime", {
           machine_id: this.$store.state.machine_id,
-          issue: this.reason
+          issue: this.reason,
+          workorder: this.$store.state.wo,
+          opn: this.$store.state.opn,
+          employee_id: this.$store.state.oid
         })
         .then(response => {
           console.log(response.data.message);
@@ -101,7 +104,7 @@ export default {
     }
   },
   beforeMount() {
-    this.startdowntime();
+    // this.startdowntime();
   }
 };
 </script>

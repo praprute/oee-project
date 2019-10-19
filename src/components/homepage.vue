@@ -44,7 +44,7 @@
     </b-container>
 
     <button class="button-confirm">
-      <img src="./../../img/confirm_login.png" width="250" height="80" @click="login()" />
+      <img src="./../img_new/confirm_login.png" width="250" height="80" @click="login()" />
     </button>
   </div>
 </template>
@@ -79,7 +79,7 @@ export default {
             this.$store.state.oid = this.oid;
             this.$router.push("/ready");
           } else {
-            alert(response.data.message);
+            alert(response.data.message_th);
           }
         });
     },
