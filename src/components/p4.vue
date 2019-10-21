@@ -2,15 +2,7 @@
   <div id="defect">
     <div>
       <b-nav>
-        <b-nav-item>
-          <img
-            class="arrow"
-            src="./../img_new/rightt-arrow.png"
-            width="50"
-            height="50"
-            @click="backpage()"
-          />
-        </b-nav-item>
+        
         <b-nav-item>
           <h1>DEFECT</h1>
         </b-nav-item>
@@ -93,7 +85,7 @@ export default {
       input: "",
       codedefect: "",
       machine_id: this.$store.state.machine_id,
-      checked: true
+      checked: false
     };
   },
   methods: {

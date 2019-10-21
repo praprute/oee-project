@@ -9,7 +9,8 @@ export const store = new Vuex.Store({
         rout: "",
         oid: "",
         machine_id: "sensor01_1",
-        opn: ""
+        opn: "",
+        rout_name: ""
     }
 });
 

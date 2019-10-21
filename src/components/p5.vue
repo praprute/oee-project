@@ -2,15 +2,7 @@
   <div id="downtime">
     <div>
       <b-nav>
-        <b-nav-item>
-          <img
-            class="arrow"
-            src="./../img_new/rightt-arrow.png"
-            width="50"
-            height="50"
-            @click="back()"
-          />
-        </b-nav-item>
+        
         <b-nav-item>
           <h1>STOP / DOWN TIME</h1>
         </b-nav-item>

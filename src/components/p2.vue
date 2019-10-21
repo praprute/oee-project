@@ -35,7 +35,7 @@
             </tr>
             <tr class="trpage">
               <td>{{RoutingI}}</td>
-              <td>{{rout}}</td>
+              <td>{{rout_name}}</td>
             </tr>
             <tr class="trpage">
               <td>{{PoI}}</td>
@@ -96,7 +96,7 @@ export default {
       work_order: this.$store.state.wo,
       item_no: "loading",
       item_name: "loading",
-      rout: this.$store.state.rout,
+      rout_name: "",//this.$store.state.rout_name,
       product_order: "loading",
       receive_order: "loading",
       remaining_order: "loading",
@@ -123,6 +123,7 @@ export default {
           console.log(response.data.message);
           if (response.data.success == "success") {
             this.$store.state.oid = "";
+            this.$store.state.rout_name="";
             this.$router.push("/home");
           } else {
             alert(response.data.message);
@@ -175,7 +176,8 @@ export default {
             this.remaining_order = parseFloat(
               Math.round(response.data.message[0].remainingOrder * 100) / 100
             ).toFixed(2);
-            this.rout = response.data.message[0].routing;
+            this.rout_name =  response.data.message[0].routing;
+            //this.$store.state.rout_name = response.data.message[0].routing;
             this.remark = response.data.message[0].remark;
             this.$store.state.opn = response.data.message[0].opn;
           } else {
@@ -204,6 +206,7 @@ export default {
             this.$store.state.wo = null;
             this.$store.state.oid = null;
             this.$store.state.rout = null;
+            this.$store.state.rout_name = null;
 
             this.$router.push("/home");
             console.log("success");
