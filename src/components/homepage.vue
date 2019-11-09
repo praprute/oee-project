@@ -16,9 +16,10 @@
           <b-form-input v-model="wo"></b-form-input>
         </b-col>
         <b-col md="2">
-          <b-button variant="light" @click="cleartext1()">ล้าง (Clear)</b-button>
+          <b-button class="clearhomeinput" variant="light" @click="cleartext1()">ล้าง (Clear)</b-button>
         </b-col>
       </b-row>
+
       <b-row class="my-1">
         <b-col md="5">
           <label class="labelhome">ขั้นตอนการผลิต (Routing):</label>
@@ -27,9 +28,10 @@
           <b-form-input v-model="rout"></b-form-input>
         </b-col>
         <b-col md="2">
-          <b-button variant="light" @click="cleartext2()">ล้าง (Clear)</b-button>
+          <b-button class="clearhomeinput" variant="light" @click="cleartext2()">ล้าง (Clear)</b-button>
         </b-col>
       </b-row>
+
       <b-row class="my-1">
         <b-col md="5">
           <label class="labelhome">รหัสพนักงาน (Operation Order):</label>
@@ -38,7 +40,7 @@
           <b-form-input v-model="oid"></b-form-input>
         </b-col>
         <b-col md="2">
-          <b-button variant="light" @click="cleartext3()">ล้าง (Clear)</b-button>
+          <b-button class="clearhomeinput" variant="light" @click="cleartext3()">ล้าง (Clear)</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -46,6 +48,13 @@
     <button class="button-confirm">
       <img src="./../img_new/confirm_login.png" width="250" height="80" @click="login()" />
     </button>
+    <button class="button-downtimeHome"
+     @click="stop_downtime()" >
+      <span>Down Time</span>
+      <br>
+      <span>เครื่องหยุด</span>
+      <!-- <img src="./../img_new/เครื่องหยุด.png" width="250" height="80" @click="defect()" />-->
+    </button> 
   </div>
 </template>
 
@@ -91,18 +100,49 @@ export default {
     },
     cleartext3() {
       this.oid = "";
+    },
+    stop_downtime(){
+      this.$router.push("/downtime");
     }
   }
 };
 </script>
 
 <style lang="css">
+
+.button-downtimeHome{
+  font-size: large;
+  color: #f5f5f5;
+  background-color: #013894;
+  border: 1px solid;
+  width: 250px;
+  height: 80px;
+  top: 20px;
+  left: 300px;
+  position: relative;
+
+}
+
+.row.my-1{
+  padding-bottom: 20px;
+}
+
 button.btn.btn-light {
   border: 1px solid;
+  margin-top: -2px
+}
+
+.form-control{
+  margin-top: -3px;
+  height: 53px;
+  font-size: 2rem;
 }
 
 label.labelhome {
-  font-size: 28px;
+  font-size: 25px;
+}
+.col-md-2{
+  padding-top: 2px;
 }
 
 .nav {
@@ -124,13 +164,10 @@ body {
   margin-top: 50px;
 }
 
-.my-1 {
-  padding: 10px;
-}
 
 button.button-confirm {
   top: 30px;
-  left: 600px;
+  left: 300px;
   position: relative;
 }
 </style>

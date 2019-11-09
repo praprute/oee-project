@@ -4,7 +4,7 @@
       <b-nav>
         <b-nav-item>
           <img
-            class="arrow"
+            class="arrowp3"
             src="./../img_new/rightt-arrow.png"
             width="50"
             height="50"
@@ -12,15 +12,15 @@
           />
         </b-nav-item>
         <b-nav-item>
-          <h1>RUNNING</h1>
+          <h1 id="hrunning">RUNNING</h1>
         </b-nav-item>
 
         <b-nav-item right>
           <img
-            class="logout2"
+            class="logoutRight"
             src="./../img_new/Logout.png"
-            width="130"
-            height="60"
+            width="170"
+            height="100"
             @click="logout()"
           />
         </b-nav-item>
@@ -140,7 +140,7 @@ export default {
               this.remark = response.data.message[0].remark;
               this.$store.state.opn = response.data.message[0].opn;
             } else {
-              alert(response.data.message);
+             alert(response.data.message);
             }
           });
       }, 1000);
@@ -189,7 +189,7 @@ export default {
             this.$store.state.oid = "";
             this.$router.push("/home");
           } else {
-            alert(response.data.message);
+            alert(response.data.message); 
           }
         });
     }
@@ -205,19 +205,23 @@ body {
   background-color: #f5f5f5;
 }
 
-a.nav-link h1 {
-  margin-top: 5px;
+a.nav-link h1#hrunning {
+  margin-top: 25px;
   margin-left: -20px;
   color: rgb(255, 255, 255);
 }
 
-a.nav-link img.logout2 {
-  margin-left: 491px;
-  margin-top: -7px;
+
+a.nav-link img.logoutRight{
+   margin-left: 399px;
+  margin-top: -18px;
+  padding-top: 20px;
 }
 
-img.arrow {
+
+img.arrowp3 {
   transform: rotate(180deg);
+  margin-top: 25px;
 }
 
 .row {

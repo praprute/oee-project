@@ -19,7 +19,7 @@
       <b-row>
         <b-col md="6">
           <img
-            class="confirmdefect"
+            class="confirmdowntime"
             @click="downtimereason()"
             src="./../img_new/ตกลง.png"
             width="220"
@@ -29,7 +29,7 @@
         </b-col>
         <b-col md="6">
           <img
-            class="cleardefect"
+            class="cleardefectdowntime"
             @click="clearreason()"
             src="./../img_new/ล้างข้อมูล.png"
             width="220"
@@ -85,7 +85,7 @@ export default {
           if (response.data.success == "success") {
             console.log(response.data.message);
             this.reason = "";
-            this.$router.push("/running");
+            this.$router.go(-1)   //push("/running");
           } else {
             alert(response.data.message);
           }
@@ -119,5 +119,10 @@ a.nav-link img.logout2 {
 
 img.arrow {
   transform: rotate(180deg);
+}
+
+img.confirmdowntime{
+  position: relative;
+  left: 200px;
 }
 </style>

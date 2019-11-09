@@ -11,23 +11,64 @@
 
     <b-container>
       <b-row>
+      <b-col md="6">
+         <h4>สาเหตุของเสีย (Defect Issue)</h4>
+          <b-input v-model="codedefect"></b-input>
+      <b-row>
+      <b-col md="6">
+      <img
+            class="confirmdefect"
+            @click="defectreason()"
+            src="./../img_new/ตกลง.png"
+            width="220"
+            height="60"
+            alt
+          />
+      </b-col>
+
+      <b-col md="6">
+      <img
+            class="cleardefect"
+            @click="clearreason()"
+            src="./../img_new/ล้างข้อมูล.png"
+            width="220"
+            height="60"
+            alt
+          />
+      </b-col>
+      </b-row>
+      
+      </b-col>
+
+      <b-col md="6">
+        <h4>จำนวนของเสีย (Defect)</h4>
+        <b-form-input type="text" v-model="input" ></b-form-input>
+        <div class="calculator">
+          <div @click="append('9')" class="btn">9</div>
+          <div @click="append('8')" class="btn">8</div>
+          <div @click="append('7')" class="btn">7</div>
+          <div @click="append('6')" class="btn">6</div>
+          <div @click="append('5')" class="btn">5</div>
+          <div @click="append('4')" class="btn">4</div>
+          <div @click="append('3')" class="btn">3</div>
+          <div @click="append('2')" class="btn">2</div>
+          <div @click="append('1')" class="btn">1</div>
+          <div @click="append('0')" class="btn">0</div>
+          <div @click="dot" class="btn">.</div>
+          <div @click="del" class="btn">DEL</div>
+        </div>
+
+      </b-col>
+      </b-row>
+
+<!-- 
+      <b-row>
         <b-col md="4">
           <h4>จำนวนของเสีย (Defect) :</h4>
         </b-col>
         <b-col md="4">
           <b-form-input type="text" v-model="input" @input="onInputChange" @keypress="onlyNumber"></b-form-input>
         </b-col>
-        <b-col md="4">
-          <b-form-checkbox v-model="checked" name="check-button" switch size="lg">
-            <b>(Keyboard: {{ checked }})</b>
-          </b-form-checkbox>
-        </b-col>
-        <SimpleKeyboard
-          v-show="checked"
-          @onChange="onChange"
-          @onKeyPress="onKeyPress"
-          :input="input"
-        />
         <!-- <button>
           <img
             src="http://206.189.36.97:3020/oee/img/Plus.png"
@@ -37,7 +78,7 @@
             @click="plus()"
           />
         </button>-->
-      </b-row>
+      <!-- </b-row>
 
       <b-row v-show="!checked">
         <h3>สาเหตุของเสีย (Defect Issue) :</h3>
@@ -67,18 +108,18 @@
             alt
           />
         </b-col>
-      </b-row>
+      </b-row>  -->
     </b-container>
   </div>
 </template>
 
 <script>
-import SimpleKeyboard from "./SimpleKeyboard";
+//import SimpleKeyboard from "./SimpleKeyboard";
 import axios from "axios";
 
 export default {
   components: {
-    SimpleKeyboard
+   // SimpleKeyboard
   },
   data() {
     return {
@@ -89,21 +130,26 @@ export default {
     };
   },
   methods: {
-    onlyNumber($event) {
-      let keyCode = $event.keyCode ? $event.keyCode : $event.which;
-      if (keyCode < 48 || keyCode > 57) {
-        $event.preventDefault();
+    append(number){
+      this.input = `${this.input}${number}`
+    },
+    dot(){
+      if (this.input.indexOf('.') === -1) {
+        this.append('.');
       }
     },
-    onChange(input) {
-      this.input = input;
+    del(){
+      this.input = this.input.slice(0, -1)
     },
-    onKeyPress(button) {
-      console.log("button", button);
-    },
-    onInputChange(input) {
-      this.input = input.target.value;
-    },
+    // onChange(input) {
+    //   this.input = input;
+    // },
+    // onKeyPress(button) {
+    //   console.log("button", button);
+    // },
+    // onInputChange(input) {
+    //   this.input = input.target.value;
+    // },
     backpage() {
       this.$router.push("/running");
     },
@@ -121,15 +167,15 @@ export default {
           }
         });
     },
-    check_type_number() {
-      if (isNaN(this.input)) {
-        alert("This not a number");
-        this.input = "";
-      } else {
-        this.defectreason();
-        this.input = "";
-      }
-    },
+    // check_type_number() {
+    //   if (isNaN(this.input)) {
+    //     alert("This not a number");
+    //     this.input = "";
+    //   } else {
+    //     this.defectreason();
+    //     this.input = "";
+    //   }
+    // },
     defectreason() {
       axios
         .post("http://206.189.36.97:3020/updateDefect", {
@@ -145,7 +191,7 @@ export default {
             console.log(response.data.message);
             this.codedefect = "";
             this.input = "";
-            this.$router.push("/running");
+            this.$router.push("/running"); //go(-1)   
           } else {
             alert(response.data.message);
           }
@@ -163,46 +209,21 @@ export default {
 </script>
 
 <style lang="css">
-body {
-  background-color: #f5f5f5;
+.calculator{
+  font-size: 35px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(50px, auto);
 }
 
-button.btn.button_plus1 {
-  color: #f5f5f5;
+.btn{
   background-color: #013894;
-  padding: 7px 20px 7px 20px;
-  margin-right: 2px;
+  color: white;
+  margin: 15px;
 }
-button.btn.button_plus2 {
-  color: #f5f5f5;
-  background-color: #013894;
-  padding: 7px 15px 7px 15px;
-  margin-right: 2px;
-}
-button.btn.button_plus3 {
-  color: #f5f5f5;
-  background-color: #013894;
-  padding: 7px 10px 7px 10px;
-  margin-right: 2px;
-}
-button.btn.button_plus4 {
-  color: #f5f5f5;
-  background-color: #013894;
-  padding: 7px 20px 7px 20px;
-  margin-right: 2px;
-}
-button.btn.button_plus5 {
-  color: #f5f5f5;
-  background-color: #013894;
-  padding: 7px 20px 7px 20px;
-  margin-right: 2px;
-}
-button.btn.button_plus6 {
-  color: #f5f5f5;
-  background-color: #013894;
-  padding: 7px 17px 7px 17px;
-  margin-right: 2px;
-  margin-left: 15px;
+
+body {
+  background-color: #f5f5f5;
 }
 
 a.nav-link h1 {
@@ -233,7 +254,8 @@ img.add-defect {
   margin-top: -10px;
   margin-left: 20px;
 }
+/* 
 img.confirmdefect {
   margin-left: 200px;
-}
+} */
 </style>

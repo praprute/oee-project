@@ -3,15 +3,15 @@
     <div>
       <b-nav>
         <b-nav-item>
-          <h1>READY</h1>
+          <h1 class="h1p1">READY</h1>
         </b-nav-item>
 
         <b-nav-item right>
           <img
             class="logout"
             src="./../img_new/Logout.png"
-            width="130"
-            height="60"
+            width="170"
+            height="100"
             @click="logout()"
           />
         </b-nav-item>
@@ -227,9 +227,9 @@ body {
   background-color: #f5f5f5;
 }
 
-a.nav-link h1 {
-  margin-top: 5px;
-  margin-left: -20px;
+a.nav-link h1.h1p1 {
+  margin-top: 27px;
+  margin-left: -10px;
   color: rgb(255, 255, 255);
 }
 table {
@@ -241,10 +241,20 @@ td {
   padding-bottom: 10px;
   padding-top: 10px;
 }
+.nav{
+  padding-top: 20px;
+   padding-bottom: 40px;
+}
+
+.col-sm-3 {
+  padding-top: 50px;
+}
+
 
 a.nav-link img.logout {
-  margin-left: 652px;
-  margin-top: -7px;
+  margin-left: 540px;
+  margin-top: -18px;
+  padding-top: 20px;
 }
 
 img.arrow {
