@@ -4,11 +4,13 @@ import running from './components/p3.vue'
 import defect from './components/p4.vue'
 import downtime from './components/p5.vue'
 import checkstatus from './components/checkstatus.vue'
+import Downtime2 from './components/Downtime2.vue'
 
 export const routes = [{
     path: "/",
     component: checkstatus
-}, {
+}, 
+{
     path: "/ready",
     component: ready
 }, {
@@ -23,4 +25,9 @@ export const routes = [{
 },{
     path: "/home",
     component: homepage
-}]
+},
+{
+    path:"/home2",
+    component:Downtime2
+
+},]

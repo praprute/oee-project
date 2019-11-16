@@ -101,8 +101,24 @@ export default {
     cleartext3() {
       this.oid = "";
     },
-    stop_downtime(){
-      this.$router.push("/downtime");
+    stop_downtime() {
+      axios
+        .post("http://206.189.36.97:3020/downtime2", {
+          machine_id: this.$store.state.machine_id,
+          // opn: this.$store.state.opn,
+          // workorder: this.$store.state.wo,
+          downtime_code: null,
+          //employee_id: this.$store.state.oid
+        })
+        .then(response => {
+          console.log(response.data.message);
+          if (response.data.success == "success") {
+            console.log("Stop");
+            this.$router.push("/downtime");
+          } else {
+            alert(response.data.message);
+          }
+        });
     }
   }
 };
