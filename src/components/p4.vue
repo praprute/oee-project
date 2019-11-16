@@ -71,7 +71,7 @@
         </b-col>
         <!-- <button>
           <img
-            src="http://192.168.1.16:3020/oee/img/Plus.png"
+            src="http://167.172.66.170:3020/oee/img/Plus.png"
             width="35"
             height="35"
             alt
@@ -155,7 +155,7 @@ export default {
     },
     startdefect() {
       axios
-        .post("http://192.168.1.16:3020/defect", {
+        .post("http://167.172.66.170:3020/defect", {
           machine_id: this.$store.state.machine_id
         })
         .then(response => {
@@ -178,7 +178,7 @@ export default {
     // },
     defectreason() {
       axios
-        .post("http://192.168.1.16:3020/updateDefect", {
+        .post("http://167.172.66.170:3020/updateDefect", {
           machine_id: this.$store.state.machine_id,
           issue: this.codedefect,
           qty: this.input,

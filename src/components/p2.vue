@@ -96,7 +96,7 @@ export default {
       work_order: this.$store.state.wo,
       item_no: "loading",
       item_name: "loading",
-      rout_name: "",//this.$store.state.rout_name,
+      rout_name: "", //this.$store.state.rout_name,
       product_order: "loading",
       receive_order: "loading",
       remaining_order: "loading",
@@ -107,7 +107,7 @@ export default {
   methods: {
     logout() {
       axios
-        .post("http://192.168.1.16:3020/logout", {
+        .post("http://167.172.66.170:3020/logout", {
           // machine_id: this.$store.state.machine_id,
           // operateId: this.$store.state.oid,
           // count: 0,
@@ -123,7 +123,7 @@ export default {
           console.log(response.data.message);
           if (response.data.success == "success") {
             this.$store.state.oid = "";
-            this.$store.state.rout_name="";
+            this.$store.state.rout_name = "";
             this.$router.push("/home");
           } else {
             alert(response.data.message);
@@ -132,7 +132,7 @@ export default {
     },
     statrtjob() {
       axios
-        .post("http://192.168.1.16:3020/ready", {
+        .post("http://167.172.66.170:3020/ready", {
           machine_id: this.$store.state.machine_id,
           workorder: this.$store.state.wo,
           routing: this.$store.state.rout,
@@ -157,7 +157,7 @@ export default {
       console.log("status");
       console.log(this.$store.state.wo);
       axios
-        .post("http://192.168.1.16:3020/status", {
+        .post("http://167.172.66.170:3020/status", {
           workorder: this.$store.state.wo
         })
         .then(response => {
@@ -176,7 +176,7 @@ export default {
             this.remaining_order = parseFloat(
               Math.round(response.data.message[0].remainingOrder * 100) / 100
             ).toFixed(2);
-            this.rout_name =  response.data.message[0].routing;
+            this.rout_name = response.data.message[0].routing;
             //this.$store.state.rout_name = response.data.message[0].routing;
             this.remark = response.data.message[0].remark;
             this.$store.state.opn = response.data.message[0].opn;
@@ -187,7 +187,7 @@ export default {
     },
     endjob() {
       axios
-        .post("http://192.168.1.16:3020/stop", {
+        .post("http://167.172.66.170:3020/stop", {
           workorder: this.$store.state.wo,
           machine_id: this.$store.state.machine_id,
           routing: this.$store.state.rout,
@@ -241,15 +241,14 @@ td {
   padding-bottom: 10px;
   padding-top: 10px;
 }
-.nav{
+.nav {
   padding-top: 20px;
-   padding-bottom: 40px;
+  padding-bottom: 40px;
 }
 
 .col-sm-3 {
   padding-top: 50px;
 }
-
 
 a.nav-link img.logout {
   margin-left: 540px;

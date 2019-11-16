@@ -104,7 +104,7 @@ export default {
       work_order: this.$store.state.wo,
       item_no: "loading",
       item_name: "loading",
-      rout_name: "loading",//this.$store.state.rout_name,
+      rout_name: "loading", //this.$store.state.rout_name,
       product_order: "loading",
       receive_order: "loading",
       remaining_order: "loading",
@@ -118,7 +118,7 @@ export default {
     update_sensor: function() {
       this.intv = setInterval(() => {
         axios
-          .post("http://192.168.1.16:3020/status", {
+          .post("http://167.172.66.170:3020/status", {
             workorder: this.$store.state.wo
           })
           .then(response => {
@@ -140,7 +140,7 @@ export default {
               this.remark = response.data.message[0].remark;
               this.$store.state.opn = response.data.message[0].opn;
             } else {
-             alert(response.data.message);
+              alert(response.data.message);
             }
           });
       }, 1000);
@@ -148,7 +148,7 @@ export default {
     stop_downtime() {
       clearInterval(this.intv);
       axios
-        .post("http://192.168.1.16:3020/downtime", {
+        .post("http://167.172.66.170:3020/downtime", {
           machine_id: this.$store.state.machine_id,
           opn: this.$store.state.opn,
           workorder: this.$store.state.wo,
@@ -176,7 +176,7 @@ export default {
     logout() {
       clearInterval(this.intv);
       axios
-        .post("http://192.168.1.16:3020/logout", {
+        .post("http://167.172.66.170:3020/logout", {
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid,
           workorder: this.$store.state.wo,
@@ -185,11 +185,11 @@ export default {
         .then(response => {
           console.log(response.data.message);
           if (response.data.success == "success") {
-            this.$store.state.rout_name = ""
+            this.$store.state.rout_name = "";
             this.$store.state.oid = "";
             this.$router.push("/home");
           } else {
-            alert(response.data.message); 
+            alert(response.data.message);
           }
         });
     }
@@ -211,13 +211,11 @@ a.nav-link h1#hrunning {
   color: rgb(255, 255, 255);
 }
 
-
-a.nav-link img.logoutRight{
-   margin-left: 399px;
+a.nav-link img.logoutRight {
+  margin-left: 399px;
   margin-top: -18px;
   padding-top: 20px;
 }
-
 
 img.arrowp3 {
   transform: rotate(180deg);

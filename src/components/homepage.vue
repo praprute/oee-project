@@ -48,13 +48,12 @@
     <button class="button-confirm">
       <img src="./../img_new/confirm_login.png" width="250" height="80" @click="login()" />
     </button>
-    <button class="button-downtimeHome"
-     @click="stop_downtime()" >
+    <button class="button-downtimeHome" @click="stop_downtime()">
       <span>Down Time</span>
-      <br>
+      <br />
       <span>เครื่องหยุด</span>
       <!-- <img src="./../img_new/เครื่องหยุด.png" width="250" height="80" @click="defect()" />-->
-    </button> 
+    </button>
   </div>
 </template>
 
@@ -74,7 +73,7 @@ export default {
   methods: {
     login() {
       axios
-        .post("http://192.168.1.16:3020/login", {
+        .post("http://167.172.66.170:3020/login", {
           workorder: this.wo,
           routing: this.rout,
           operateId: this.oid,
@@ -103,11 +102,11 @@ export default {
     },
     stop_downtime() {
       axios
-        .post("http://192.168.1.16:3020/downtime2", {
+        .post("http://167.172.66.170:3020/downtime2", {
           machine_id: this.$store.state.machine_id,
           // opn: this.$store.state.opn,
           // workorder: this.$store.state.wo,
-          downtime_code: null,
+          downtime_code: null
           //employee_id: this.$store.state.oid
         })
         .then(response => {
@@ -125,8 +124,7 @@ export default {
 </script>
 
 <style lang="css">
-
-.button-downtimeHome{
+.button-downtimeHome {
   font-size: large;
   color: #f5f5f5;
   background-color: #013894;
@@ -136,19 +134,18 @@ export default {
   top: 20px;
   left: 300px;
   position: relative;
-
 }
 
-.row.my-1{
+.row.my-1 {
   padding-bottom: 20px;
 }
 
 button.btn.btn-light {
   border: 1px solid;
-  margin-top: -2px
+  margin-top: -2px;
 }
 
-.form-control{
+.form-control {
   margin-top: -3px;
   height: 53px;
   font-size: 2rem;
@@ -157,7 +154,7 @@ button.btn.btn-light {
 label.labelhome {
   font-size: 25px;
 }
-.col-md-2{
+.col-md-2 {
   padding-top: 2px;
 }
 
@@ -179,7 +176,6 @@ body {
 .container-fluid {
   margin-top: 50px;
 }
-
 
 button.button-confirm {
   top: 30px;

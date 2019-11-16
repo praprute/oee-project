@@ -17,8 +17,8 @@ export default {
   },
   methods: {
     checkstatus() {
-      axios 
-        .post("http://192.168.1.16:3020/checkStatus", {
+      axios
+        .post("http://167.172.66.170:3020/checkStatus", {
           machine_id: this.$store.state.machine_id
         })
         .then(response => {
