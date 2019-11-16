@@ -74,7 +74,7 @@ export default {
   methods: {
     login() {
       axios
-        .post("http://206.189.36.97:3020/login", {
+        .post("http://192.168.1.16:3020/login", {
           workorder: this.wo,
           routing: this.rout,
           operateId: this.oid,
@@ -103,7 +103,7 @@ export default {
     },
     stop_downtime() {
       axios
-        .post("http://206.189.36.97:3020/downtime2", {
+        .post("http://192.168.1.16:3020/downtime2", {
           machine_id: this.$store.state.machine_id,
           // opn: this.$store.state.opn,
           // workorder: this.$store.state.wo,
@@ -114,7 +114,7 @@ export default {
           console.log(response.data.message);
           if (response.data.success == "success") {
             console.log("Stop");
-            this.$router.push("/downtime");
+            this.$router.push("/Downtime2");
           } else {
             alert(response.data.message);
           }

@@ -107,7 +107,7 @@ export default {
   methods: {
     logout() {
       axios
-        .post("http://206.189.36.97:3020/logout", {
+        .post("http://192.168.1.16:3020/logout", {
           // machine_id: this.$store.state.machine_id,
           // operateId: this.$store.state.oid,
           // count: 0,
@@ -132,7 +132,7 @@ export default {
     },
     statrtjob() {
       axios
-        .post("http://206.189.36.97:3020/ready", {
+        .post("http://192.168.1.16:3020/ready", {
           machine_id: this.$store.state.machine_id,
           workorder: this.$store.state.wo,
           routing: this.$store.state.rout,
@@ -157,7 +157,7 @@ export default {
       console.log("status");
       console.log(this.$store.state.wo);
       axios
-        .post("http://206.189.36.97:3020/status", {
+        .post("http://192.168.1.16:3020/status", {
           workorder: this.$store.state.wo
         })
         .then(response => {
@@ -187,7 +187,7 @@ export default {
     },
     endjob() {
       axios
-        .post("http://206.189.36.97:3020/stop", {
+        .post("http://192.168.1.16:3020/stop", {
           workorder: this.$store.state.wo,
           machine_id: this.$store.state.machine_id,
           routing: this.$store.state.rout,

@@ -27,7 +27,7 @@ export const routes = [{
     component: homepage
 },
 {
-    path:"/home2",
+    path:"/Downtime2",
     component:Downtime2
 
 },]

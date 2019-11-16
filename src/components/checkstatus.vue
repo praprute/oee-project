@@ -18,7 +18,7 @@ export default {
   methods: {
     checkstatus() {
       axios 
-        .post("http://206.189.36.97:3020/checkStatus", {
+        .post("http://192.168.1.16:3020/checkStatus", {
           machine_id: this.$store.state.machine_id
         })
         .then(response => {
@@ -32,7 +32,7 @@ export default {
             this.$store.state.wo = response.data.workorder;
             this.$store.state.rout = response.data.routing;
             this.$store.state.oid = response.data.empId;
-            this.$router.push("/ready");
+            this.$router.push("/running");
           } else if (response.data.status == "defect") {
             this.$store.state.wo = response.data.workorder;
             this.$store.state.rout = response.data.routing;
