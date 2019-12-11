@@ -2,7 +2,6 @@
   <div id="defect">
     <div>
       <b-nav>
-        
         <b-nav-item>
           <h1>DEFECT</h1>
         </b-nav-item>
@@ -11,104 +10,65 @@
 
     <b-container>
       <b-row>
-      <b-col md="6">
-         <h4>สาเหตุของเสีย (Defect Issue)</h4>
+        <b-col md="6">
+          <h4>สาเหตุของเสีย (Defect Issue)</h4>
           <b-input v-model="codedefect"></b-input>
-      <b-row>
-      <b-col md="6">
-      <img
-            class="confirmdefect"
-            @click="defectreason()"
-            src="./../img_new/ตกลง.png"
-            width="220"
-            height="60"
-            alt
-          />
-      </b-col>
+          <b-row>
+            <b-col md="6">
+              <img
+                class="confirmdefect"
+                @click="defectreason()"
+                src="./../img_new/ตกลง.png"
+                width="220"
+                height="60"
+                alt
+              />
+            </b-col>
 
-      <b-col md="6">
-      <img
-            class="cleardefect"
-            @click="clearreason()"
-            src="./../img_new/ล้างข้อมูล.png"
-            width="220"
-            height="60"
-            alt
-          />
-      </b-col>
-      </b-row>
-      
-      </b-col>
+            <b-col md="6">
+              <img
+                class="cleardefect"
+                @click="clearreason()"
+                src="./../img_new/ล้างข้อมูล.png"
+                width="220"
+                height="60"
+                alt
+              />
+            </b-col>
+          </b-row>
 
-      <b-col md="6">
-        <h4>จำนวนของเสีย (Defect)</h4>
-        <b-form-input type="text" v-model="input" ></b-form-input>
-        <div class="calculator">
-          <div @click="append('9')" class="btn">9</div>
-          <div @click="append('8')" class="btn">8</div>
-          <div @click="append('7')" class="btn">7</div>
-          <div @click="append('6')" class="btn">6</div>
-          <div @click="append('5')" class="btn">5</div>
-          <div @click="append('4')" class="btn">4</div>
-          <div @click="append('3')" class="btn">3</div>
-          <div @click="append('2')" class="btn">2</div>
-          <div @click="append('1')" class="btn">1</div>
-          <div @click="append('0')" class="btn">0</div>
-          <div @click="dot" class="btn">.</div>
-          <div @click="del" class="btn">DEL</div>
-        </div>
-
-      </b-col>
-      </b-row>
-
-<!-- 
-      <b-row>
-        <b-col md="4">
-          <h4>จำนวนของเสีย (Defect) :</h4>
+          <b-row>
+            <b-col md="6" class="radioWoCol1" v-for="(item, index) in wo" :key="index">
+              <b-form-radio
+                v-model="selected"
+                name="some-radios"
+                :value="wo[index]"
+                size="lg"
+              >{{wo[index]}}</b-form-radio>
+              <br />
+            </b-col>
+          </b-row>
         </b-col>
-        <b-col md="4">
-          <b-form-input type="text" v-model="input" @input="onInputChange" @keypress="onlyNumber"></b-form-input>
-        </b-col>
-        <!-- <button>
-          <img
-            src="http://167.172.66.170:3020/oee/img/Plus.png"
-            width="35"
-            height="35"
-            alt
-            @click="plus()"
-          />
-        </button>-->
-      <!-- </b-row>
 
-      <b-row v-show="!checked">
-        <h3>สาเหตุของเสีย (Defect Issue) :</h3>
-      </b-row>
-      <b-row v-show="!checked">
-        <b-input v-model="codedefect"></b-input>
-      </b-row>
-
-      <b-row v-show="!checked">
         <b-col md="6">
-          <img
-            class="confirmdefect"
-            @click="check_type_number()()"
-            src="./../img_new/ตกลง.png"
-            width="220"
-            height="60"
-            alt
-          />
+          <h4>จำนวนของเสีย (Defect)</h4>
+          <b-form-input type="text" v-model="input"></b-form-input>
+          <div class="calculator">
+            <div @click="append('9')" class="btn">9</div>
+            <div @click="append('8')" class="btn">8</div>
+            <div @click="append('7')" class="btn">7</div>
+            <div @click="append('6')" class="btn">6</div>
+            <div @click="append('5')" class="btn">5</div>
+            <div @click="append('4')" class="btn">4</div>
+            <div @click="append('3')" class="btn">3</div>
+            <div @click="append('2')" class="btn">2</div>
+            <div @click="append('1')" class="btn">1</div>
+            <div @click="append('0')" class="btn">0</div>
+            <div @click="dot" class="btn">.</div>
+            <div @click="del" class="btn">DEL</div>
+          </div>
         </b-col>
-        <b-col md="6">
-          <img
-            class="cleardefect"
-            @click="clearreason()"
-            src="./../img_new/ล้างข้อมูล.png"
-            width="220"
-            height="60"
-            alt
-          />
-        </b-col>
-      </b-row>  -->
+      </b-row>
     </b-container>
   </div>
 </template>
@@ -119,27 +79,29 @@ import axios from "axios";
 
 export default {
   components: {
-   // SimpleKeyboard
+    // SimpleKeyboard
   },
   data() {
     return {
       input: "",
       codedefect: "",
       machine_id: this.$store.state.machine_id,
-      checked: false
+      checked: false,
+      wo: this.$store.state.wo,
+      selected: ""
     };
   },
   methods: {
-    append(number){
-      this.input = `${this.input}${number}`
+    append(number) {
+      this.input = `${this.input}${number}`;
     },
-    dot(){
-      if (this.input.indexOf('.') === -1) {
-        this.append('.');
+    dot() {
+      if (this.input.indexOf(".") === -1) {
+        this.append(".");
       }
     },
-    del(){
-      this.input = this.input.slice(0, -1)
+    del() {
+      this.input = this.input.slice(0, -1);
     },
     // onChange(input) {
     //   this.input = input;
@@ -155,13 +117,14 @@ export default {
     },
     startdefect() {
       axios
-        .post("http://167.172.66.170:3020/defect", {
+        .post("http://localhost:3020/defect", {
           machine_id: this.$store.state.machine_id
         })
         .then(response => {
           console.log(response.data.message);
           if (response.data.success == "success") {
             console.log("send defect");
+            //this.wo = this.data.message.wo;
           } else {
             alert(response.data.message);
           }
@@ -177,12 +140,13 @@ export default {
     //   }
     // },
     defectreason() {
+      //this.wo = [];
       axios
-        .post("http://167.172.66.170:3020/updateDefect", {
+        .post("http://localhost:3020/updateDefect", {
           machine_id: this.$store.state.machine_id,
           issue: this.codedefect,
           qty: this.input,
-          opn: this.$store.state.opn,
+          wo: this.selected,
           operateId: this.$store.state.oid
         })
         .then(response => {
@@ -191,7 +155,7 @@ export default {
             console.log(response.data.message);
             this.codedefect = "";
             this.input = "";
-            this.$router.push("/running"); //go(-1)   
+            this.$router.push("/running"); //go(-1)
           } else {
             alert(response.data.message);
           }
@@ -209,14 +173,14 @@ export default {
 </script>
 
 <style lang="css">
-.calculator{
+.calculator {
   font-size: 35px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: minmax(50px, auto);
 }
 
-.btn{
+.btn {
   background-color: #013894;
   color: white;
   margin: 15px;
@@ -224,6 +188,11 @@ export default {
 
 body {
   background-color: #f5f5f5;
+}
+
+.custom-checkbox.b-custom-control-lg {
+  margin-bottom: 35px;
+  margin-left: 45px;
 }
 
 a.nav-link h1 {

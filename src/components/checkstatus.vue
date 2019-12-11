@@ -17,11 +17,15 @@ export default {
   },
   methods: {
     checkstatus() {
+      console.log("checkstatus");
+      console.log(this.$store.state.machine_id);
+
       axios
-        .post("http://167.172.66.170:3020/checkStatus", {
+        .post("http://localhost:3020/checkStatus", {
           machine_id: this.$store.state.machine_id
         })
         .then(response => {
+          console.log(response);
           console.log(response.data);
           if (response.data.status == "working") {
             this.$store.state.wo = response.data.workorder;

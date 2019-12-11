@@ -27,40 +27,42 @@
       </b-nav>
     </div>
     <b-container class="bv-example-row">
-      <b-row class="rowp2">
+      <b-row class="rowp2" v-for="(item, index) in item_no" :key="index">
+        <!-- {{item}} -->
+
         <b-col sm="8">
           <table>
             <tr class="trpage">
               <td width="60%">{{woI}}</td>
-              <td>{{work_order}}</td>
+              <td>{{work_order[index]}}</td>
             </tr>
             <tr class="trpage">
               <td>{{ItemnoI}}</td>
-              <td>{{item_no}}</td>
+              <td>{{item_no[index]}}</td>
             </tr>
             <tr class="trpage">
               <td>{{ItemnameI}}</td>
-              <td>{{item_name}}</td>
+              <td>{{item_name[index]}}</td>
             </tr>
             <tr class="trpage">
               <td>{{RoutingI}}</td>
-              <td>{{rout_name}}</td>
+              <td>{{rout_name[index]}}</td>
             </tr>
             <tr class="trpage">
               <td>{{PoI}}</td>
-              <td>{{product_order}}</td>
+              <td>{{product_order[index]}}</td>
             </tr>
             <tr class="trpage">
               <td>{{RoI}}</td>
-              <td>{{receive_order}}</td>
+              <td>{{receive_order[index]}}</td>
             </tr>
             <tr class="trpage">
               <td>{{ReOI}}</td>
-              <td>{{remaining_order}}</td>
+              <td>{{remaining_order[index]}}</td>
             </tr>
             <tr class="trpage">
               <td>{{Remark_txt}}</td>
-              <td>{{remark}}</td>
+              <td>{{remark[index]}}</td>
             </tr>
           </table>
         </b-col>
@@ -101,15 +103,15 @@ export default {
       load: "Loading",
       Remark_txt: "Remarks :",
 
-      work_order: this.$store.state.wo,
-      item_no: "loading",
-      item_name: "loading",
-      rout_name: "loading", //this.$store.state.rout_name,
-      product_order: "loading",
-      receive_order: "loading",
-      remaining_order: "loading",
+      work_order: ["loading"],
+      item_no: ["loading"],
+      item_name: ["loading"],
+      rout_name: ["loading"], //this.$store.state.rout_name,
+      product_order: ["loading"],
+      receive_order: ["loading"],
+      remaining_order: ["loading"],
       machine_id: this.$store.state.machine_id,
-      remark: "loading",
+      remark: ["loading"],
 
       intv: null
     };
@@ -118,27 +120,55 @@ export default {
     update_sensor: function() {
       this.intv = setInterval(() => {
         axios
-          .post("http://167.172.66.170:3020/status", {
-            workorder: this.$store.state.wo
+          .post("http://localhost:3020/status", {
+            machine_id: this.machine_id
           })
           .then(response => {
             //console.log(response.data.message);
             if (response.data.success == "success") {
-              this.item_no = response.data.message[0].itemNo;
-              this.item_name = response.data.message[0].itemName;
-              this.product_order = parseFloat(
-                Math.round(response.data.message[0].productOrder * 100) / 100
-              ).toFixed(2);
-              this.receive_order = parseFloat(
-                Math.round(response.data.message[0].receiveOrder * 100) / 100
-              ).toFixed(2);
-              this.remaining_order = parseFloat(
-                Math.round(response.data.message[0].remainingOrder * 100) / 100
-              ).toFixed(2);
-              this.rout_name = response.data.message[0].routing;
-              //this.$store.state.rout_name = response.data.message[0].routing
-              this.remark = response.data.message[0].remark;
-              this.$store.state.opn = response.data.message[0].opn;
+              //this.resp = response.data.message;
+              this.work_order = [];
+              this.item_no = [];
+              this.item_name = [];
+              this.rout_name = [];
+              (this.product_order = []),
+                (this.receive_order = []),
+                (this.remaining_order = []),
+                (this.remark = []);
+              for (
+                let index = 0;
+                index < response.data.message.length;
+                index++
+              ) {
+                this.work_order.push(response.data.message[index].wo);
+                this.item_no.push(response.data.message[index].itemNo);
+                this.item_name.push(response.data.message[index].itemName);
+                this.product_order.push(
+                  parseFloat(
+                    Math.round(
+                      response.data.message[index].productOrder * 100
+                    ) / 100
+                  ).toFixed(2)
+                );
+                this.receive_order.push(
+                  parseFloat(
+                    Math.round(
+                      response.data.message[index].receiveOrder * 100
+                    ) / 100
+                  ).toFixed(2)
+                );
+                this.remaining_order.push(
+                  parseFloat(
+                    Math.round(
+                      response.data.message[index].remainingOrder * 100
+                    ) / 100
+                  ).toFixed(2)
+                );
+                this.rout_name.push(response.data.message[index].routing);
+                //this.$store.state.rout_name = response.data.message[0].routing
+                this.remark.push(response.data.message[index].remark);
+                this.$store.state.opn.push(response.data.message[index].opn);
+              }
             } else {
               alert(response.data.message);
             }
@@ -148,11 +178,11 @@ export default {
     stop_downtime() {
       clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/downtime", {
-          machine_id: this.$store.state.machine_id,
-          opn: this.$store.state.opn,
-          workorder: this.$store.state.wo,
+        .post("http://localhost:3020/downtime", {
+          // opn: this.$store.state.opn,
+          // workorder: this.$store.state.wo,
           downtime_code: null,
+          machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
         })
         .then(response => {
@@ -171,16 +201,17 @@ export default {
     },
     back() {
       clearInterval(this.intv);
-      this.$router.push("/ready");
+      this.$router.go(-1);
+      //this.$router.push("/ready");
     },
     logout() {
       clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/logout", {
+        .post("http://localhost:3020/logout", {
+          // workorder: this.$store.state.wo,
+          // opn: this.$store.state.opn,
           machine_id: this.$store.state.machine_id,
-          employee_id: this.$store.state.oid,
-          workorder: this.$store.state.wo,
-          opn: this.$store.state.opn
+          employee_id: this.$store.state.oid
         })
         .then(response => {
           console.log(response.data.message);
@@ -205,6 +236,10 @@ body {
   background-color: #f5f5f5;
 }
 
+.col-sm-8 {
+  padding-bottom: 70px;
+}
+
 a.nav-link h1#hrunning {
   margin-top: 25px;
   margin-left: -20px;
@@ -225,6 +260,7 @@ img.arrowp3 {
 .row {
   margin-top: 50px;
 }
+
 img.p3 {
   margin-bottom: 15px;
 }

@@ -5,13 +5,14 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
-        wo: "",
-        rout: "",
+        wo: [],
+        rout: [],
         oid: "",
         machine_id: "sensor01_1",
-        opn: "",
+        opn: [],
         rout_name: ""
     }
 });
+
 
 //sensor01_1
