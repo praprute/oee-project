@@ -140,11 +140,11 @@ export default {
       machine_id: this.$store.state.machine_id
     };
   },
-  //http://localhost
+  //http://167.172.66.170
   methods: {
     login() {
       axios
-        .post("http://localhost:3020/login", {
+        .post("http://167.172.66.170:3020/login", {
           machine_id: this.machine_id,
           workorder: [this.wo[0], this.wo[1], this.wo[2], this.wo[3]],
           routing: [this.rout[0], this.rout[1], this.rout[2], this.rout[3]],
@@ -193,7 +193,7 @@ export default {
     },
     stop_downtime() {
       axios
-        .post("http://localhost:3020/downtime2", {
+        .post("http://167.172.66.170:3020/downtime2", {
           machine_id: this.$store.state.machine_id,
           // opn: this.$store.state.opn,
           // workorder: this.$store.state.wo,

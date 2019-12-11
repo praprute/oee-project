@@ -57,7 +57,7 @@ export default {
     },
     // startdowntime() {
     //   axios
-    //     .post("http://localhost:3020:3020:3020/downtime", {
+    //     .post("http://167.172.66.170:3020:3020:3020/downtime", {
     //       machine_id: this.$store.state.machine_id
     //     })
     //     .then(response => {
@@ -72,7 +72,7 @@ export default {
     downtimereason() {
       console.log(this.$store.state.machine_id);
       axios
-        .post("http://localhost:3020/updateDowntime2", {
+        .post("http://167.172.66.170:3020/updateDowntime2", {
           machine_id: this.$store.state.machine_id,
           issue: this.reason,
           workorder: this.$store.state.wo,

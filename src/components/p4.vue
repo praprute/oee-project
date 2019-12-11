@@ -36,9 +36,8 @@
               />
             </b-col>
           </b-row>
-
           <b-row>
-            <b-form-select v-model="selected" :options="wo"></b-form-select>
+            <b-form-select v-model="selected" :options="wo" size="lg"></b-form-select>
             <!-- <b-col md="6" class="radioWoCol1" v-for="(item, index) in wo" :key="index">
               <b-form-radio
                 
@@ -50,7 +49,7 @@
               {{wo[index]}}
               </b-form-radio>
               <br />
-            </b-col> -->
+            </b-col>-->
           </b-row>
         </b-col>
 
@@ -121,7 +120,7 @@ export default {
     },
     startdefect() {
       axios
-        .post("http://localhost:3020/defect", {
+        .post("http://167.172.66.170:3020/defect", {
           machine_id: this.$store.state.machine_id
         })
         .then(response => {
@@ -144,11 +143,14 @@ export default {
     //   }
     // },
     defectreason() {
-      console.log("sdvsdvsdv")
+      if (this.selected == "") {
+        alert("กรุณาเลือก Work Order");
+        return;
+      }
       axios
-        .post("http://localhost:3020/updateDefect", {
+        .post("http://167.172.66.170:3020/updateDefect", {
           machine_id: this.$store.state.machine_id,
-          issue: this.codedefect, 
+          issue: this.codedefect,
           qty: this.input,
           wo: this.selected,
           operateId: this.$store.state.oid
