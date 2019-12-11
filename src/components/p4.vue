@@ -38,15 +38,19 @@
           </b-row>
 
           <b-row>
-            <b-col md="6" class="radioWoCol1" v-for="(item, index) in wo" :key="index">
+            <b-form-select v-model="selected" :options="wo"></b-form-select>
+            <!-- <b-col md="6" class="radioWoCol1" v-for="(item, index) in wo" :key="index">
               <b-form-radio
+                
                 v-model="selected"
-                name="some-radios"
-                :value="wo[index]"
+                name="radio-options"
+                value="wo[index]"
                 size="lg"
-              >{{wo[index]}}</b-form-radio>
+              >
+              {{wo[index]}}
+              </b-form-radio>
               <br />
-            </b-col>
+            </b-col> -->
           </b-row>
         </b-col>
 
@@ -140,11 +144,11 @@ export default {
     //   }
     // },
     defectreason() {
-      //this.wo = [];
+      console.log("sdvsdvsdv")
       axios
         .post("http://localhost:3020/updateDefect", {
           machine_id: this.$store.state.machine_id,
-          issue: this.codedefect,
+          issue: this.codedefect, 
           qty: this.input,
           wo: this.selected,
           operateId: this.$store.state.oid
