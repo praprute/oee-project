@@ -11,6 +11,7 @@
     <b-container fluid>
       <b-row class="my-1">
         <b-col md="5">
+          {{woo}}
           <label class="labelhome">เลขที่ใบสั่งผลิต (Work Order 1):</label>
         </b-col>
         <b-col md="5">
@@ -135,6 +136,7 @@ export default {
   data() {
     return {
       woo:this.$store.state.wo,
+      roo:this.$store.state.rout,
       wo: this.$store.state.wo[0],
       rout: this.$store.state.rout[0],
       wo1: this.$store.state.wo[1],
@@ -154,7 +156,7 @@ export default {
         .post("http://167.172.66.170:3020/login", {
           machine_id: this.machine_id,
           workorder: [this.$store.state.wo],
-          routing: [this.$store.state.rout],
+          routing : [this.$store.state.rout],
           operateId: this.oid
         })
         .then(response => {
@@ -172,31 +174,39 @@ export default {
         });
     },
     cleartextw0() {
-      this.wo.splice(0, 1, null);
+      //this.woo.splice(0, 1, null);
+      this.wo = ""
     },
     cleartextr0() {
-      this.rout.splice(0, 1, null);
+      //this.rout.splice(0, 1, null);
+      this.rout = ""
     },
     cleartextw1() {
-      this.wo.splice(1, 1, null);
+      //this.wo.splice(1, 1, null);
+      this.wo1 = ""
     },
     cleartextr1() {
-      this.rout.splice(1, 1, null);
+      //this.rout.splice(1, 1, null);
+      this.rout1 = ""
     },
     cleartextw2() {
-      this.wo.splice(2, 1, null);
+      //this.wo.splice(2, 1, null);
+      this.wo2 = ""
     },
     cleartextr2() {
-      this.rout.splice(2, 1, null);
+      //this.rout.splice(2, 1, null);
+     this.rout2 = ""
     },
     cleartextw3() {
-      this.wo.splice(3, 1, null);
+      //this.wo.splice(3, 1, null);
+      this.wo3 = ""
     },
     cleartextr3() {
-      this.rout.splice(3, 1, null);
+      //this.rout.splice(3, 1, null);
+      this.rout3 = ""
     },
     cleartextOID() {
-      this.oid = null;
+      this.oid = "";
     },
     stop_downtime() {
       axios
