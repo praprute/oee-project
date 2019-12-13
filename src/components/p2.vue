@@ -109,7 +109,7 @@ export default {
       wo2: this.$store.state.wo2,
       rout2: this.$store.state.ro2,
       wo3: this.$store.state.wo3,
-      rout3: this.$store.state.ro3,
+      rout3: this.$store.state.ro3
     };
   },
   methods: {
@@ -219,7 +219,7 @@ export default {
           if (response.data.success == "success") {
             this.$store.state.oid = null;
             this.$store.state.rout_name = null;
-            this.$store.state.wo0 = null; 
+            this.$store.state.wo0 = null;
             this.$store.state.ro0 = null;
             this.$store.state.wo1 = null;
             this.$store.state.ro1 = null;

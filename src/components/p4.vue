@@ -169,27 +169,27 @@ export default {
     //     this.input = "";
     //   }
     // },
-    checkWo(){
+    checkWo() {
       axios
-        .post("http://167.172.66.170:3020/wo",{
-            machine_id: this.$store.state.machine_id
+        .post("http://167.172.66.170:3020/wo", {
+          machine_id: this.$store.state.machine_id
         })
         .then(response => {
-          console.log("resWo")
+          console.log("resWo");
           console.log(response.data);
-          console.log("remes")
-          if(response.data.success == "success"){
-            if(response.data.message[0].wo1 != null ){
-              this.woOptions.push(response.data.message[0].wo1)
+          console.log("remes");
+          if (response.data.success == "success") {
+            if (response.data.message[0].wo1 != null) {
+              this.woOptions.push(response.data.message[0].wo1);
             }
-            if(response.data.message[0].wo2 != null){
-              this.woOptions.push(response.data.message[0].wo2)
+            if (response.data.message[0].wo2 != null) {
+              this.woOptions.push(response.data.message[0].wo2);
             }
-            if(response.data.message[0].wo3 != null){
-              this.woOptions.push(response.data.message[0].wo3)
+            if (response.data.message[0].wo3 != null) {
+              this.woOptions.push(response.data.message[0].wo3);
             }
-            if(response.data.message[0].wo4 != null){
-              this.woOptions.push(response.data.message[0].wo4)
+            if (response.data.message[0].wo4 != null) {
+              this.woOptions.push(response.data.message[0].wo4);
             }
           }
         });
@@ -227,7 +227,6 @@ export default {
   beforeMount() {
     this.startdefect();
     this.checkWo();
-
   }
 };
 </script>

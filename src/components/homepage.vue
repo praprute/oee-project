@@ -223,7 +223,7 @@ export default {
     cleartextr3() {
       //this.rout.splice(3, 1, null);
       this.rout3 = null;
-      this.$store.state.ro3 = null
+      this.$store.state.ro3 = null;
     },
     cleartextOID() {
       this.oid = "";
