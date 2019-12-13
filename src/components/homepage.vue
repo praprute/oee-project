@@ -14,7 +14,7 @@
           <label class="labelhome">เลขที่ใบสั่งผลิต (Work Order 1):</label>
         </b-col>
         <b-col md="5">
-          <b-form-input v-model="wo[0]"></b-form-input>
+          <b-form-input v-model="wo"></b-form-input>
         </b-col>
         <b-col md="2">
           <b-button class="clearhomeinput" variant="light" @click="cleartextw0()">ล้าง (Clear)</b-button>
@@ -26,7 +26,7 @@
           <label class="labelhome">ขั้นตอนการผลิต (Routing 1):</label>
         </b-col>
         <b-col md="5">
-          <b-form-input v-model="rout[0]"></b-form-input>
+          <b-form-input v-model="rout"></b-form-input>
         </b-col>
         <b-col md="2">
           <b-button class="clearhomeinput" variant="light" @click="cleartextr0()">ล้าง (Clear)</b-button>
@@ -37,7 +37,7 @@
           <label class="labelhome">เลขที่ใบสั่งผลิต (Work Order 2):</label>
         </b-col>
         <b-col md="5">
-          <b-form-input v-model="wo[1]"></b-form-input>
+          <b-form-input v-model="wo1"></b-form-input>
         </b-col>
         <b-col md="2">
           <b-button class="clearhomeinput" variant="light" @click="cleartextw1()">ล้าง (Clear)</b-button>
@@ -49,7 +49,7 @@
           <label class="labelhome">ขั้นตอนการผลิต (Routing 2):</label>
         </b-col>
         <b-col md="5">
-          <b-form-input v-model="rout[1]"></b-form-input>
+          <b-form-input v-model="rout1"></b-form-input>
         </b-col>
         <b-col md="2">
           <b-button class="clearhomeinput" variant="light" @click="cleartextr1()">ล้าง (Clear)</b-button>
@@ -60,7 +60,7 @@
           <label class="labelhome">เลขที่ใบสั่งผลิต (Work Order 3):</label>
         </b-col>
         <b-col md="5">
-          <b-form-input v-model="wo[2]"></b-form-input>
+          <b-form-input v-model="wo2"></b-form-input>
         </b-col>
         <b-col md="2">
           <b-button class="clearhomeinput" variant="light" @click="cleartextw2()">ล้าง (Clear)</b-button>
@@ -72,7 +72,7 @@
           <label class="labelhome">ขั้นตอนการผลิต (Routing 3):</label>
         </b-col>
         <b-col md="5">
-          <b-form-input v-model="rout[2]"></b-form-input>
+          <b-form-input v-model="rout2"></b-form-input>
         </b-col>
         <b-col md="2">
           <b-button class="clearhomeinput" variant="light" @click="cleartextr2()">ล้าง (Clear)</b-button>
@@ -83,7 +83,7 @@
           <label class="labelhome">เลขที่ใบสั่งผลิต (Work Order 4):</label>
         </b-col>
         <b-col md="5">
-          <b-form-input v-model="wo[3]"></b-form-input>
+          <b-form-input v-model="wo3"></b-form-input>
         </b-col>
         <b-col md="2">
           <b-button class="clearhomeinput" variant="light" @click="cleartextw3()">ล้าง (Clear)</b-button>
@@ -95,7 +95,7 @@
           <label class="labelhome">ขั้นตอนการผลิต (Routing 4):</label>
         </b-col>
         <b-col md="5">
-          <b-form-input v-model="rout[3]"></b-form-input>
+          <b-form-input v-model="rout3"></b-form-input>
         </b-col>
         <b-col md="2">
           <b-button class="clearhomeinput" variant="light" @click="cleartextr3()">ล้าง (Clear)</b-button>
@@ -134,8 +134,15 @@ import axios from "axios";
 export default {
   data() {
     return {
-      wo: this.$store.state.wo,
-      rout: this.$store.state.rout,
+      woo:this.$store.state.wo,
+      wo: this.$store.state.wo[0],
+      rout: this.$store.state.rout[0],
+      wo1: this.$store.state.wo[1],
+      rout1: this.$store.state.rout[1],
+      wo2: this.$store.state.wo[2],
+      rout2: this.$store.state.rout[2],
+      wo3: this.$store.state.wo[3],
+      rout3: this.$store.state.rout[3],
       oid: this.$store.state.oid,
       machine_id: this.$store.state.machine_id
     };
