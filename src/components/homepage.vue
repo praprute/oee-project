@@ -140,14 +140,14 @@ export default {
       machine_id: this.$store.state.machine_id
     };
   },
-  //http://167.172.66.170
+  //http://167.172.66ee.170
   methods: {
     login() {
       axios
-        .post("http://167.172.66.170:3020/login", {
+        .post("http://192.168.1.28:3020/login", {
           machine_id: this.machine_id,
-          workorder: [this.wo[0], this.wo[1], this.wo[2], this.wo[3]],
-          routing: [this.rout[0], this.rout[1], this.rout[2], this.rout[3]],
+          workorder: [this.$store.state.wo],
+          routing: [this.$store.state.rout],
           operateId: this.oid
         })
         .then(response => {
@@ -157,7 +157,7 @@ export default {
             this.$store.state.rout = this.rout;
             this.$store.state.oid = this.oid;
             this.$store.state.wo = this.wo;
-            console.log(this.wo)
+            console.log(this.wo);
             this.$router.push("/ready");
           } else {
             alert(response.data.message_th);
@@ -193,7 +193,7 @@ export default {
     },
     stop_downtime() {
       axios
-        .post("http://167.172.66.170:3020/downtime2", {
+        .post("http://192.168.1.28:3020/downtime2", {
           machine_id: this.$store.state.machine_id,
           // opn: this.$store.state.opn,
           // workorder: this.$store.state.wo,
