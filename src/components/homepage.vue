@@ -144,7 +144,7 @@ export default {
   methods: {
     login() {
       axios
-        .post("http://192.168.1.28:3020/login", {
+        .post("http://167.172.66.170:3020/login", {
           machine_id: this.machine_id,
           workorder: [this.$store.state.wo],
           routing: [this.$store.state.rout],
@@ -193,7 +193,7 @@ export default {
     },
     stop_downtime() {
       axios
-        .post("http://192.168.1.28:3020/downtime2", {
+        .post("http://167.172.66.170:3020/downtime2", {
           machine_id: this.$store.state.machine_id,
           // opn: this.$store.state.opn,
           // workorder: this.$store.state.wo,
