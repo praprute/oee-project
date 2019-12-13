@@ -101,7 +101,15 @@ export default {
       receive_order: ["loading"],
       remaining_order: ["loading"],
       machine_id: this.$store.state.machine_id,
-      remark: ["loading"]
+      remark: ["loading"],
+      wo: this.$store.state.wo0,
+      rout0: this.$store.state.ro0,
+      wo1: this.$store.state.wo1,
+      rout1: this.$store.state.ro1,
+      wo2: this.$store.state.wo2,
+      rout2: this.$store.state.ro2,
+      wo3: this.$store.state.wo3,
+      rout3: this.$store.state.ro3,
     };
   },
   methods: {
@@ -203,21 +211,22 @@ export default {
     endjob() {
       axios
         .post("http://167.172.66.170:3020/stop", {
-          //workorder: this.$store.state.wo,
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
-          // routing: this.$store.state.rout,
-          // count: 0,
-          // opn: this.$store.state.opn,
         })
         .then(response => {
           console.log(response.data.message);
           if (response.data.success == "success") {
-            this.$store.state.wo = [];
             this.$store.state.oid = null;
-            this.$store.state.rout = [];
             this.$store.state.rout_name = null;
-
+            this.$store.state.wo0 = null; 
+            this.$store.state.ro0 = null;
+            this.$store.state.wo1 = null;
+            this.$store.state.ro1 = null;
+            this.$store.state.wo2 = null;
+            this.$store.state.ro2 = null;
+            this.$store.state.wo3 = null;
+            this.$store.state.ro3 = null;
             this.$router.push("/home");
             console.log("success");
           } else {

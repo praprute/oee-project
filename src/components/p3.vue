@@ -201,15 +201,13 @@ export default {
     },
     back() {
       clearInterval(this.intv);
-      this.$router.go(-1);
-      //this.$router.push("/ready");
+      //this.$router.go(-1);
+      this.$router.push("/ready");
     },
     logout() {
       clearInterval(this.intv);
       axios
         .post("http://167.172.66.170:3020/logout", {
-          // workorder: this.$store.state.wo,
-          // opn: this.$store.state.opn,
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
         })

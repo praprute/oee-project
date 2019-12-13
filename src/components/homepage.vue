@@ -11,7 +11,6 @@
     <b-container fluid>
       <b-row class="my-1">
         <b-col md="5">
-          {{woo}}
           <label class="labelhome">เลขที่ใบสั่งผลิต (Work Order 1):</label>
         </b-col>
         <b-col md="5">
@@ -27,7 +26,7 @@
           <label class="labelhome">ขั้นตอนการผลิต (Routing 1):</label>
         </b-col>
         <b-col md="5">
-          <b-form-input v-model="rout"></b-form-input>
+          <b-form-input v-model="rout0"></b-form-input>
         </b-col>
         <b-col md="2">
           <b-button class="clearhomeinput" variant="light" @click="cleartextr0()">ล้าง (Clear)</b-button>
@@ -135,16 +134,16 @@ import axios from "axios";
 export default {
   data() {
     return {
-      woo:this.$store.state.wo,
-      roo:this.$store.state.rout,
-      wo: this.$store.state.wo[0],
-      rout: this.$store.state.rout[0],
-      wo1: this.$store.state.wo[1],
-      rout1: this.$store.state.rout[1],
-      wo2: this.$store.state.wo[2],
-      rout2: this.$store.state.rout[2],
-      wo3: this.$store.state.wo[3],
-      rout3: this.$store.state.rout[3],
+      woo: this.$store.state.wo,
+      roo: this.$store.state.rout,
+      wo: this.$store.state.wo0,
+      rout0: this.$store.state.ro0,
+      wo1: this.$store.state.wo1,
+      rout1: this.$store.state.ro1,
+      wo2: this.$store.state.wo2,
+      rout2: this.$store.state.ro2,
+      wo3: this.$store.state.wo3,
+      rout3: this.$store.state.ro3,
       oid: this.$store.state.oid,
       machine_id: this.$store.state.machine_id
     };
@@ -152,20 +151,33 @@ export default {
   //http://167.172.66ee.170
   methods: {
     login() {
+      var workorder = [];
+      var routing = [];
+      workorder.push(this.wo);
+      workorder.push(this.wo1);
+      workorder.push(this.wo2);
+      workorder.push(this.wo3);
+
+      routing.push(this.rout0);
+      routing.push(this.rout1);
+      routing.push(this.rout2);
+      routing.push(this.rout3);
+
+      console.log(workorder);
+      console.log(routing);
+
       axios
         .post("http://167.172.66.170:3020/login", {
           machine_id: this.machine_id,
-          workorder: [this.$store.state.wo],
-          routing : [this.$store.state.rout],
+          workorder: workorder,
+          routing: routing,
           operateId: this.oid
         })
         .then(response => {
           console.log(response);
           console.log(response.data.message);
           if (response.data.success == "success") {
-            this.$store.state.rout = this.rout;
             this.$store.state.oid = this.oid;
-            this.$store.state.wo = this.wo;
             console.log(this.wo);
             this.$router.push("/ready");
           } else {
@@ -175,35 +187,43 @@ export default {
     },
     cleartextw0() {
       //this.woo.splice(0, 1, null);
-      this.wo = ""
+      this.wo = null;
+      this.$store.state.wo0 = null;
     },
     cleartextr0() {
       //this.rout.splice(0, 1, null);
-      this.rout = ""
+      this.rout0 = null;
+      this.$store.state.ro0 = null;
     },
     cleartextw1() {
       //this.wo.splice(1, 1, null);
-      this.wo1 = ""
+      this.wo1 = null;
+      this.$store.state.wo1 = null;
     },
     cleartextr1() {
       //this.rout.splice(1, 1, null);
-      this.rout1 = ""
+      this.rout1 = null;
+      this.$store.state.ro1 = null;
     },
     cleartextw2() {
       //this.wo.splice(2, 1, null);
-      this.wo2 = ""
+      this.wo2 = null;
+      this.$store.state.wo2 = null;
     },
     cleartextr2() {
       //this.rout.splice(2, 1, null);
-     this.rout2 = ""
+      this.rout2 = null;
+      this.$store.state.ro2 = null;
     },
     cleartextw3() {
       //this.wo.splice(3, 1, null);
-      this.wo3 = ""
+      this.wo3 = null;
+      this.$store.state.wo3 = null;
     },
     cleartextr3() {
       //this.rout.splice(3, 1, null);
-      this.rout3 = ""
+      this.rout3 = null;
+      this.$store.state.ro3 = null
     },
     cleartextOID() {
       this.oid = "";

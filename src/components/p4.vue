@@ -37,7 +37,7 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-form-select v-model="selected" :options="wo" size="lg"></b-form-select>
+            <b-form-select v-model="selected" :options="woOptions" size="lg"></b-form-select>
             <!-- <b-col md="6" class="radioWoCol1" v-for="(item, index) in wo" :key="index">
               <b-form-radio
                 
@@ -89,8 +89,14 @@ export default {
       input: "",
       codedefect: "",
       machine_id: this.$store.state.machine_id,
-      checked: false,
-      wo: this.$store.state.wo,
+
+      woOptions: [],
+
+      wo0: this.$store.state.wo0,
+      wo1: this.$store.state.wo1,
+      wo2: this.$store.state.wo2,
+      wo3: this.$store.state.wo3,
+
       selected: ""
     };
   },
@@ -119,6 +125,11 @@ export default {
       this.$router.push("/running");
     },
     startdefect() {
+      console.log("1");
+      console.log("2");
+      console.log("3");
+      console.log("4");
+
       axios
         .post("http://167.172.66.170:3020/defect", {
           machine_id: this.$store.state.machine_id
@@ -127,6 +138,22 @@ export default {
           console.log(response.data.message);
           if (response.data.success == "success") {
             console.log("send defect");
+
+            // if (this.$store.state.wo0 !== null) {
+            // this.woOptions.push(this.$store.state.wo0);
+            // }
+            // if (this.$store.state.wo1 !== null) {
+            //   this.woOptions.push(this.$store.state.wo1);
+            // }
+            // if (this.$store.state.wo2 !== null) {
+            //   this.woOptions.push(this.$store.state.wo2);
+            // }
+            // if (this.$store.state.wo3 !== null) {
+            //   this.woOptions.push(this.$store.state.wo3);
+            // }
+
+            // console.log(this.wo0);
+            // console.log(this.woOptions);
             //this.wo = this.data.message.wo;
           } else {
             alert(response.data.message);
@@ -142,6 +169,31 @@ export default {
     //     this.input = "";
     //   }
     // },
+    checkWo(){
+      axios
+        .post("http://167.172.66.170:3020/wo",{
+            machine_id: this.$store.state.machine_id
+        })
+        .then(response => {
+          console.log("resWo")
+          console.log(response.data);
+          console.log("remes")
+          if(response.data.success == "success"){
+            if(response.data.message[0].wo1 != null ){
+              this.woOptions.push(response.data.message[0].wo1)
+            }
+            if(response.data.message[0].wo2 != null){
+              this.woOptions.push(response.data.message[0].wo2)
+            }
+            if(response.data.message[0].wo3 != null){
+              this.woOptions.push(response.data.message[0].wo3)
+            }
+            if(response.data.message[0].wo4 != null){
+              this.woOptions.push(response.data.message[0].wo4)
+            }
+          }
+        });
+    },
     defectreason() {
       if (this.selected == "") {
         alert("กรุณาเลือก Work Order");
@@ -174,6 +226,8 @@ export default {
   },
   beforeMount() {
     this.startdefect();
+    this.checkWo();
+
   }
 };
 </script>
