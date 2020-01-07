@@ -166,6 +166,32 @@ export default {
       console.log(workorder);
       console.log(routing);
 
+      if(this.wo !== null){
+        if(this.rout0 == null){
+          alert("กรอกข้อมูลไม่ถูกต้อง")
+        }
+      }
+
+      if(this.wo1 !== null){
+        if(this.rout1 == null){
+           alert("กรอกข้อมูลไม่ถูกต้อง")
+        }
+      }
+
+      if(this.wo2 !== null){
+        if(this.rout2 == null){
+          alert("กรอกข้อมูลไม่ถูกต้อง")
+        }
+      }
+
+      if(this.wo3 !== null){
+        if(this.rout3 == null){
+          alert("กรอกข้อมูลไม่ถูกต้อง")
+        }
+      }
+
+
+
       axios
         .post("http://167.172.66.170:3020/login", {
           machine_id: this.machine_id,

@@ -1,9 +1,18 @@
 <template>
   <div id="defect">
     <div>
-      <b-nav>
+      <b-nav class="navp4">
         <b-nav-item>
-          <h1>DEFECT</h1>
+          <img
+            class="arrowp4"
+            src="./../img_new/rightt-arrow.png"
+            width="50"
+            height="50"
+            @click="backpage()"
+          />
+        </b-nav-item>
+        <b-nav-item >
+          <h1 id="hdefect">DEFECT</h1>
         </b-nav-item>
       </b-nav>
     </div>
@@ -57,18 +66,18 @@
           <h4>จำนวนของเสีย (Defect)</h4>
           <b-form-input type="text" v-model="input"></b-form-input>
           <div class="calculator">
-            <div @click="append('9')" class="btn">9</div>
-            <div @click="append('8')" class="btn">8</div>
-            <div @click="append('7')" class="btn">7</div>
-            <div @click="append('6')" class="btn">6</div>
-            <div @click="append('5')" class="btn">5</div>
-            <div @click="append('4')" class="btn">4</div>
-            <div @click="append('3')" class="btn">3</div>
-            <div @click="append('2')" class="btn">2</div>
-            <div @click="append('1')" class="btn">1</div>
-            <div @click="append('0')" class="btn">0</div>
-            <div @click="dot" class="btn">.</div>
-            <div @click="del" class="btn">DEL</div>
+            <div @click="append('9')" class="btnp4">9</div>
+            <div @click="append('8')" class="btnp4">8</div>
+            <div @click="append('7')" class="btnp4">7</div>
+            <div @click="append('6')" class="btnp4">6</div>
+            <div @click="append('5')" class="btnp4">5</div>
+            <div @click="append('4')" class="btnp4">4</div>
+            <div @click="append('3')" class="btnp4">3</div>
+            <div @click="append('2')" class="btnp4">2</div>
+            <div @click="append('1')" class="btnp4">1</div>
+            <div @click="append('0')" class="btnp4">0</div>
+            <div @click="dot" class="btnp4">.</div>
+            <div @click="del" class="btnp4">DEL</div>
           </div>
         </b-col>
       </b-row>
@@ -124,42 +133,44 @@ export default {
     backpage() {
       this.$router.push("/running");
     },
-    startdefect() {
-      console.log("1");
-      console.log("2");
-      console.log("3");
-      console.log("4");
+    // startdefect() {
+    //   console.log("1");
+    //   console.log("2");
+    //   console.log("3");
+    //   console.log("4");
 
-      axios
-        .post("http://167.172.66.170:3020/defect", {
-          machine_id: this.$store.state.machine_id
-        })
-        .then(response => {
-          console.log(response.data.message);
-          if (response.data.success == "success") {
-            console.log("send defect");
+    //   axios
+    //     .post("http://167.172.66.170:3020/defect", {
+    //       machine_id: this.$store.state.machine_id
+    //     })
+    //     .then(response => {
+    //       console.log(response.data.message);
+    //       if (response.data.success == "success") {
+    //         console.log("send defect");
 
-            // if (this.$store.state.wo0 !== null) {
-            // this.woOptions.push(this.$store.state.wo0);
-            // }
-            // if (this.$store.state.wo1 !== null) {
-            //   this.woOptions.push(this.$store.state.wo1);
-            // }
-            // if (this.$store.state.wo2 !== null) {
-            //   this.woOptions.push(this.$store.state.wo2);
-            // }
-            // if (this.$store.state.wo3 !== null) {
-            //   this.woOptions.push(this.$store.state.wo3);
-            // }
+    //         // if (this.$store.state.wo0 !== null) {
+    //         // this.woOptions.push(this.$store.state.wo0);
+    //         // }
+    //         // if (this.$store.state.wo1 !== null) {
+    //         //   this.woOptions.push(this.$store.state.wo1);
+    //         // }
+    //         // if (this.$store.state.wo2 !== null) {
+    //         //   this.woOptions.push(this.$store.state.wo2);
+    //         // }
+    //         // if (this.$store.state.wo3 !== null) {
+    //         //   this.woOptions.push(this.$store.state.wo3);
+    //         // }
 
-            // console.log(this.wo0);
-            // console.log(this.woOptions);
-            //this.wo = this.data.message.wo;
-          } else {
-            alert(response.data.message);
-          }
-        });
-    },
+    //         // console.log(this.wo0);
+    //         // console.log(this.woOptions);
+    //         //this.wo = this.data.message.wo;
+    //       } else {
+    //         alert(response.data.message);
+    //       }
+    //     });
+    // },
+
+
     // check_type_number() {
     //   if (isNaN(this.input)) {
     //     alert("This not a number");
@@ -180,16 +191,24 @@ export default {
           console.log("remes");
           if (response.data.success == "success") {
             if (response.data.message[0].wo1 != null) {
-              this.woOptions.push(response.data.message[0].wo1);
+              if(this.woOptions.includes(response.data.message[0].wo1) == false){
+                this.woOptions.push(response.data.message[0].wo1);
+              }
             }
             if (response.data.message[0].wo2 != null) {
-              this.woOptions.push(response.data.message[0].wo2);
+              if(this.woOptions.includes(response.data.message[0].wo2) == false){
+                this.woOptions.push(response.data.message[0].wo2);
+              }
             }
             if (response.data.message[0].wo3 != null) {
-              this.woOptions.push(response.data.message[0].wo3);
+             if(this.woOptions.includes(response.data.message[0].wo3) == false){
+                this.woOptions.push(response.data.message[0].wo3);
+              }
             }
             if (response.data.message[0].wo4 != null) {
-              this.woOptions.push(response.data.message[0].wo4);
+              if(this.woOptions.includes(response.data.message[0].wo4) == false){
+                this.woOptions.push(response.data.message[0].wo4);
+              }
             }
           }
         });
@@ -225,24 +244,29 @@ export default {
     }
   },
   beforeMount() {
-    this.startdefect();
+    //this.startdefect();
     this.checkWo();
   }
+
+  //15
 };
 </script>
 
 <style lang="css">
 .calculator {
-  font-size: 35px;
+  font-size: 50px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: minmax(50px, auto);
 }
 
-.btn {
+.btnp4 {
   background-color: #013894;
   color: white;
-  margin: 15px;
+  margin: 10px;  
+  padding: 10%;
+  font-size: 20px;
+  text-align: center;
 }
 
 body {
@@ -282,6 +306,22 @@ img.add-defect {
   margin-top: -10px;
   margin-left: 20px;
 }
+
+img.arrowp4 {
+  transform: rotate(180deg);
+  margin-top: 10px;
+}
+
+a.nav-link h1#hdefect{
+  margin-top: 10px;
+  margin-left: -20px;
+  color: rgb(255, 255, 255);
+}
+
+ul.nav.navp4{
+  padding:10px;
+}
+
 /* 
 img.confirmdefect {
   margin-left: 200px;

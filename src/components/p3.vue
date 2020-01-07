@@ -187,7 +187,7 @@ export default {
         })
         .then(response => {
           console.log(response.data.message);
-          if (response.data.success == "success") {
+          if (response.data.success == "success`") {
             console.log("Stop");
             this.$router.push("/downtime");
           } else {
