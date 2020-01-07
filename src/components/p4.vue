@@ -234,7 +234,8 @@ export default {
             this.input = "";
             this.$router.push("/running"); //go(-1)
           } else {
-            alert(response.data.message);
+            //alert(response.data.message);
+            alert("กรอกข้อมูลไม่ถูกต้อง")
           }
         });
     },
