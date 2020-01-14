@@ -140,7 +140,7 @@ export default {
     //   console.log("4");
 
     //   axios
-    //     .post("http://167.172.66.170:3020/defect", {
+    //     .post("http://localhost:3020/defect", {
     //       machine_id: this.$store.state.machine_id
     //     })
     //     .then(response => {
@@ -182,7 +182,7 @@ export default {
     // },
     checkWo() {
       axios
-        .post("http://167.172.66.170:3020/wo", {
+        .post("http://localhost:3020/wo", {
           machine_id: this.$store.state.machine_id
         })
         .then(response => {
@@ -219,7 +219,7 @@ export default {
         return;
       }
       axios
-        .post("http://167.172.66.170:3020/updateDefect", {
+        .post("http://localhost:3020/updateDefect", {
           machine_id: this.$store.state.machine_id,
           issue: this.codedefect,
           qty: this.input,

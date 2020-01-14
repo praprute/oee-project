@@ -115,7 +115,7 @@ export default {
   methods: {
     logout() {
       axios
-        .post("http://167.172.66.170:3020/logout", {
+        .post("http://localhost:3020/logout", {
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
         })
@@ -132,7 +132,7 @@ export default {
     },
     statrtjob() {
       axios
-        .post("http://167.172.66.170:3020/ready", {
+        .post("http://localhost:3020/ready", {
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
           // workorder: this.$store.state.wo,
@@ -157,10 +157,10 @@ export default {
       console.log("status");
       console.log(this.$store.state.wo);
       axios
-        .post("http://167.172.66.170:3020/status", {
+        .post("http://localhost:3020/status", {
           machine_id: this.$store.state.machine_id
           //http://167.172.66.aaaa170:3020
-          //http://167.172.66.170:3020
+          //http://localhost:3020
         })
         .then(response => {
           console.log(response.data.message[0]);
@@ -210,7 +210,7 @@ export default {
     },
     endjob() {
       axios
-        .post("http://167.172.66.170:3020/stop", {
+        .post("http://localhost:3020/stop", {
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
         })

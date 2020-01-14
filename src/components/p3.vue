@@ -120,7 +120,7 @@ export default {
     update_sensor: function() {
       this.intv = setInterval(() => {
         axios
-          .post("http://167.172.66.170:3020/status", {
+          .post("http://localhost:3020/status", {
             machine_id: this.machine_id
           })
           .then(response => {
@@ -178,16 +178,16 @@ export default {
     stop_downtime() {
       clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/downtime", {
+        .post("http://localhost:3020/downtime", {
           // opn: this.$store.state.opn,
           // workorder: this.$store.state.wo,
-          downtime_code: null,
+          downtime_code: "",
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
         })
         .then(response => {
           console.log(response.data.message);
-          if (response.data.success == "success`") {
+          if (response.data.success == "success") {
             console.log("Stop");
             this.$router.push("/downtime");
           } else {
@@ -207,7 +207,7 @@ export default {
     logout() {
       clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/logout", {
+        .post("http://localhost:3020/logout", {
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
         })

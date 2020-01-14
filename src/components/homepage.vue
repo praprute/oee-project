@@ -193,7 +193,7 @@ export default {
 
 
       axios
-        .post("http://167.172.66.170:3020/login", {
+        .post("http://localhost:3020/login", {
           machine_id: this.machine_id,
           workorder: workorder,
           routing: routing,
@@ -256,7 +256,7 @@ export default {
     },
     stop_downtime() {
       axios
-        .post("http://167.172.66.170:3020/downtime2", {
+        .post("http://localhost:3020/downtime2", {
           machine_id: this.$store.state.machine_id,
           // opn: this.$store.state.opn,
           // workorder: this.$store.state.wo,
