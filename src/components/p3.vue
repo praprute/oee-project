@@ -170,7 +170,7 @@ export default {
                 this.$store.state.opn.push(response.data.message[index].opn);
               }
             } else {
-              alert(response.data.message);
+             alert("กรอกข้อมูลไม่ถูกต้อง");
             }
           });
       }, 1000);
@@ -191,7 +191,7 @@ export default {
             console.log("Stop");
             this.$router.push("/downtime");
           } else {
-            alert(response.data.message);
+           alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     },
@@ -218,7 +218,7 @@ export default {
             this.$store.state.oid = "";
             this.$router.push("/home");
           } else {
-            alert(response.data.message);
+           alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     }

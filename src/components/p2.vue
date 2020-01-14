@@ -134,7 +134,7 @@ export default {
                         this.$store.state.wo3,
                         this.$store.state.ro3])
           } else {
-            alert(response.data.message);
+           alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     },
@@ -157,7 +157,7 @@ export default {
             // this.remaining_order = response.data.remainingOrder;
             this.$router.push("/running");
           } else {
-            alert(response.data.message);
+           alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     },
@@ -212,7 +212,7 @@ export default {
               this.$store.state.opn.push(response.data.message[index].opn);
             }
           } else {
-            alert(response.data.message);
+           alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     },
@@ -239,7 +239,7 @@ export default {
             this.$router.push("/home");
             console.log("success");
           } else {
-            alert(response.data.message);
+           alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     }

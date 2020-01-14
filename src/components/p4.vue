@@ -165,7 +165,7 @@ export default {
     //         // console.log(this.woOptions);
     //         //this.wo = this.data.message.wo;
     //       } else {
-    //         alert(response.data.message);
+    //        alert("กรอกข้อมูลไม่ถูกต้อง");
     //       }
     //     });
     // },

@@ -65,7 +65,7 @@ export default {
     //       if (response.data.success == "success") {
     //         console.log("send downtime");
     //       } else {
-    //         alert(response.data.message);
+    //        alert("กรอกข้อมูลไม่ถูกต้อง");
     //       }
     //     });
     // },
@@ -86,7 +86,7 @@ export default {
             this.reason = "";
             this.$router.go(-1); //push("/running");
           } else {
-            alert(response.data.message);
+            alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     },

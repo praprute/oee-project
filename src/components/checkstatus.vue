@@ -97,7 +97,7 @@ export default {
             this.$store.state.rout = response.data.routing;
             this.$router.push("/home");
           } else {
-            alert(response.data.message);
+           alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     }

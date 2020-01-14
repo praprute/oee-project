@@ -285,7 +285,7 @@ export default {
             this.$store.state.oid = this.oid;
             this.$router.push("/Downtime2");
           } else {
-            alert(response.data.message);
+           alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     }
