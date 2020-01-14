@@ -134,18 +134,19 @@ import axios from "axios";
 export default {
   data() {
     return {
-      woo: this.$store.state.wo,
-      roo: this.$store.state.rout,
-      wo: this.$store.state.wo0,
-      rout0: this.$store.state.ro0,
-      wo1: this.$store.state.wo1,
-      rout1: this.$store.state.ro1,
-      wo2: this.$store.state.wo2,
-      rout2: this.$store.state.ro2,
-      wo3: this.$store.state.wo3,
-      rout3: this.$store.state.ro3,
-      oid: this.$store.state.oid,
-      machine_id: this.$store.state.machine_id
+      woo:    this.$store.state.wo,
+      roo:    this.$store.state.rout,
+      wo:     this.$store.state.wo0,
+      rout0:  this.$store.state.ro0,
+      wo1:    this.$store.state.wo1,
+      rout1:  this.$store.state.ro1,
+      wo2:    this.$store.state.wo2,
+      rout2:  this.$store.state.ro2,
+      wo3:    this.$store.state.wo3,
+      rout3:  this.$store.state.ro3,
+      oid:    this.$store.state.oid,
+      machine_id: this.$store.state.machine_id,
+      status_login: 1
     };
   },
   //http://167.172.66ee.170
@@ -162,6 +163,7 @@ export default {
       routing.push(this.rout1);
       routing.push(this.rout2);
       routing.push(this.rout3);
+       this.status_login = 1;
 
       console.log(workorder);
       console.log(routing);
@@ -169,31 +171,35 @@ export default {
       if(this.wo !== null){
         if(this.rout0 == null){
           alert("กรอกข้อมูลไม่ถูกต้อง")
+          this.status_login = 0;
         }
       }
 
       if(this.wo1 !== null){
         if(this.rout1 == null){
            alert("กรอกข้อมูลไม่ถูกต้อง")
+           this.status_login = 0;
         }
       }
 
       if(this.wo2 !== null){
         if(this.rout2 == null){
           alert("กรอกข้อมูลไม่ถูกต้อง")
+          this.status_login = 0;
         }
       }
 
       if(this.wo3 !== null){
         if(this.rout3 == null){
           alert("กรอกข้อมูลไม่ถูกต้อง")
+          this.status_login = 0;
         }
       }
 
 
-
+      if(this.status_login != 0){
       axios
-        .post("http://localhost:3020/login", {
+        .post("http://167.172.66.170:3020/login", {
           machine_id: this.machine_id,
           workorder: workorder,
           routing: routing,
@@ -205,11 +211,20 @@ export default {
           if (response.data.success == "success") {
             this.$store.state.oid = this.oid;
             console.log(this.wo);
+            this.$store.state.wo0 =  this.wo
+            this.$store.state.ro0 =  this.rout0
+            this.$store.state.wo1 =  this.wo1
+            this.$store.state.ro1 =  this.rout1
+            this.$store.state.wo2 =  this.wo2 
+            this.$store.state.ro2 =  this.rout2
+            this.$store.state.wo3 =  this.wo3
+            this.$store.state.ro3 =  this.rout3
             this.$router.push("/ready");
           } else {
             alert(response.data.message_th);
           }
         });
+      }
     },
     cleartextw0() {
       //this.woo.splice(0, 1, null);
@@ -256,7 +271,7 @@ export default {
     },
     stop_downtime() {
       axios
-        .post("http://localhost:3020/downtime2", {
+        .post("http://167.172.66.170:3020/downtime2", {
           machine_id: this.$store.state.machine_id,
           // opn: this.$store.state.opn,
           // workorder: this.$store.state.wo,
