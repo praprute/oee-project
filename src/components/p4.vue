@@ -18,6 +18,22 @@
     </div>
 
     <b-container>
+       <br/>
+
+      <h2>{{offAndon}}</h2>
+
+        <offline @detected-condition="handleConnectivityChange">
+        <!-- Only renders when the device is online -->
+        <div slot="online">
+        <!-- <p>It looks like you're online! Here's all the things you can do...</p>
+        ... -->
+        </div>
+        <!-- Only renders when the device is offline -->
+        <div slot="offline">
+        <!-- <p>You appear to be offline, that's okay, we can still do things...</p>
+        ... -->
+        </div>
+      </offline>
       <b-row>
         <b-col md="6">
           <h4>สาเหตุของเสีย (Defect Issue)</h4>
@@ -88,10 +104,11 @@
 <script>
 //import SimpleKeyboard from "./SimpleKeyboard";
 import axios from "axios";
+import offline from 'v-offline';
 
 export default {
-  components: {
-    // SimpleKeyboard
+  components:{
+    offline
   },
   data() {
     return {
@@ -105,11 +122,19 @@ export default {
       wo1: this.$store.state.wo1,
       wo2: this.$store.state.wo2,
       wo3: this.$store.state.wo3,
-
+      offAndon:null,
       selected: ""
     };
   },
   methods: {
+    handleConnectivityChange(status) {
+      console.log(status);
+      if(status){
+        this.offAndon = "Online"
+      }else{
+        this.offAndon = "Internet cannot connecting."
+      }
+    },
     append(number) {
       this.input = `${this.input}${number}`;
     },

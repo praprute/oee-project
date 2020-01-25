@@ -18,6 +18,22 @@
       </b-nav>
     </div>
     <b-container class="bv-example-row">
+      <br/>
+
+      <h2>{{offAndon}}</h2>
+
+        <offline @detected-condition="handleConnectivityChange">
+        <!-- Only renders when the device is online -->
+        <div slot="online">
+        <!-- <p>It looks like you're online! Here's all the things you can do...</p>
+        ... -->
+        </div>
+        <!-- Only renders when the device is offline -->
+        <div slot="offline">
+        <!-- <p>You appear to be offline, that's okay, we can still do things...</p>
+        ... -->
+        </div>
+      </offline>
       <b-row class="rowp2" v-for="(item, index) in item_no" :key="index">
         <b-col sm="8">
           <table>
@@ -79,8 +95,12 @@
 
 <script>
 import axios from "axios";
+import offline from 'v-offline';
 
 export default {
+  components:{
+    offline
+  },
   data() {
     return {
       woI: "เลขที่ใบสั่งผลิต (Work Order): ",
@@ -109,10 +129,19 @@ export default {
       wo2: this.$store.state.wo2,
       rout2: this.$store.state.ro2,
       wo3: this.$store.state.wo3,
-      rout3: this.$store.state.ro3
+      rout3: this.$store.state.ro3,
+      offAndon:null
     };
   },
   methods: {
+     handleConnectivityChange(status) {
+      console.log(status);
+      if(status){
+        this.offAndon = "Online"
+      }else{
+        this.offAndon = "Internet cannot connecting."
+      }
+    },
     logout() {
       axios
         .post("http://167.172.66.170:3020/logout", {

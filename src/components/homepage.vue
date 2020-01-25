@@ -9,6 +9,22 @@
     </div>
 
     <b-container fluid>
+
+      <h2>{{offAndon}}</h2>
+
+        <offline @detected-condition="handleConnectivityChange">
+        <!-- Only renders when the device is online -->
+        <div slot="online">
+        <!-- <p>It looks like you're online! Here's all the things you can do...</p>
+        ... -->
+        </div>
+        <!-- Only renders when the device is offline -->
+        <div slot="offline">
+        <!-- <p>You appear to be offline, that's okay, we can still do things...</p>
+        ... -->
+        </div>
+      </offline>
+      <br/>
       <b-row class="my-1">
         <b-col md="5">
           <label class="labelhome">เลขที่ใบสั่งผลิต (Work Order 1):</label>
@@ -130,8 +146,12 @@
 
 <script>
 import axios from "axios";
+import offline from 'v-offline';
 
 export default {
+  components:{
+    offline
+  },
   data() {
     return {
       woo:    this.$store.state.wo,
@@ -146,11 +166,20 @@ export default {
       rout3:  this.$store.state.ro3,
       oid:    this.$store.state.oid,
       machine_id: this.$store.state.machine_id,
-      status_login: 1
+      status_login: 1,
+      offAndon:null
     };
   },
   //http://167.172.66ee.170
   methods: {
+    handleConnectivityChange(status) {
+      console.log(status);
+      if(status){
+        this.offAndon = "Online"
+      }else{
+        this.offAndon = "Internet cannot connecting."
+      }
+    },
     login() {
       var workorder = [];
       var routing = [];
