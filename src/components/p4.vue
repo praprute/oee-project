@@ -19,21 +19,7 @@
 
     <b-container>
        <br/>
-
       <h2>{{offAndon}}</h2>
-
-        <offline @detected-condition="handleConnectivityChange">
-        <!-- Only renders when the device is online -->
-        <div slot="online">
-        <!-- <p>It looks like you're online! Here's all the things you can do...</p>
-        ... -->
-        </div>
-        <!-- Only renders when the device is offline -->
-        <div slot="offline">
-        <!-- <p>You appear to be offline, that's okay, we can still do things...</p>
-        ... -->
-        </div>
-      </offline>
       <b-row>
         <b-col md="6">
           <h4>สาเหตุของเสีย (Defect Issue)</h4>
@@ -63,18 +49,7 @@
           </b-row>
           <b-row>
             <b-form-select v-model="selected" :options="woOptions" size="lg"></b-form-select>
-            <!-- <b-col md="6" class="radioWoCol1" v-for="(item, index) in wo" :key="index">
-              <b-form-radio
-                
-                v-model="selected"
-                name="radio-options"
-                value="wo[index]"
-                size="lg"
-              >
-              {{wo[index]}}
-              </b-form-radio>
-              <br />
-            </b-col>-->
+            
           </b-row>
         </b-col>
 
@@ -123,18 +98,11 @@ export default {
       wo2: this.$store.state.wo2,
       wo3: this.$store.state.wo3,
       offAndon:null,
-      selected: ""
+      selected: "",
+      intv:null
     };
   },
   methods: {
-    handleConnectivityChange(status) {
-      console.log(status);
-      if(status){
-        this.offAndon = "Online"
-      }else{
-        this.offAndon = "Internet cannot connecting."
-      }
-    },
     append(number) {
       this.input = `${this.input}${number}`;
     },
@@ -146,68 +114,13 @@ export default {
     del() {
       this.input = this.input.slice(0, -1);
     },
-    // onChange(input) {
-    //   this.input = input;
-    // },
-    // onKeyPress(button) {
-    //   console.log("button", button);
-    // },
-    // onInputChange(input) {
-    //   this.input = input.target.value;
-    // },
     backpage() {
+      clearInterval(this.intv);
       this.$router.push("/running");
     },
-    // startdefect() {
-    //   console.log("1");
-    //   console.log("2");
-    //   console.log("3");
-    //   console.log("4");
-
-    //   axios
-    //     .post("http://167.172.66.170:3020/defect", {
-    //       machine_id: this.$store.state.machine_id
-    //     })
-    //     .then(response => {
-    //       console.log(response.data.message);
-    //       if (response.data.success == "success") {
-    //         console.log("send defect");
-
-    //         // if (this.$store.state.wo0 !== null) {
-    //         // this.woOptions.push(this.$store.state.wo0);
-    //         // }
-    //         // if (this.$store.state.wo1 !== null) {
-    //         //   this.woOptions.push(this.$store.state.wo1);
-    //         // }
-    //         // if (this.$store.state.wo2 !== null) {
-    //         //   this.woOptions.push(this.$store.state.wo2);
-    //         // }
-    //         // if (this.$store.state.wo3 !== null) {
-    //         //   this.woOptions.push(this.$store.state.wo3);
-    //         // }
-
-    //         // console.log(this.wo0);
-    //         // console.log(this.woOptions);
-    //         //this.wo = this.data.message.wo;
-    //       } else {
-    //        alert("กรอกข้อมูลไม่ถูกต้อง");
-    //       }
-    //     });
-    // },
-
-
-    // check_type_number() {
-    //   if (isNaN(this.input)) {
-    //     alert("This not a number");
-    //     this.input = "";
-    //   } else {
-    //     this.defectreason();
-    //     this.input = "";
-    //   }
-    // },
-    checkWo() {
+    checkWo(){
       axios
-        .post("http://167.172.66.170:3020/wo", {
+        .post("http://localhost:3020/wo", {
           machine_id: this.$store.state.machine_id
         })
         .then(response => {
@@ -243,8 +156,9 @@ export default {
         alert("กรุณาเลือก Work Order");
         return;
       }
+      clearInterval(this.intv)
       axios
-        .post("http://167.172.66.170:3020/updateDefect", {
+        .post("http://localhost:3020/updateDefect", {
           machine_id: this.$store.state.machine_id,
           issue: this.codedefect,
           qty: this.input,
@@ -264,14 +178,38 @@ export default {
           }
         });
     },
+    net_val: function() {
+    this.intv = setInterval(() => {
+      axios
+        .post("http://localhost:3020/checknet", {
+        })
+        .then(response => {
+          console.log(response)
+          if (response.data.success == "success"){
+            this.offAndon = "Online"
+            console.log("online");
+          }else{
+            this.offAndon = "Offline"
+            console.log("offline");
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          this.offAndon = "Offline"
+        })
+                   }, 1000);
+    },
     clearreason() {
       this.codedefect = "";
       this.input = "";
     }
   },
   beforeMount() {
-    //this.startdefect();
     this.checkWo();
+    this.net_val();
+  },
+  beforeDestroy(){
+    clearInterval(this.intv)
   }
 
   //15

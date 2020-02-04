@@ -31,18 +31,6 @@
 
       <h2>{{offAndon}}</h2>
 
-        <offline @detected-condition="handleConnectivityChange">
-        <!-- Only renders when the device is online -->
-        <div slot="online">
-        <!-- <p>It looks like you're online! Here's all the things you can do...</p>
-        ... -->
-        </div>
-        <!-- Only renders when the device is offline -->
-        <div slot="offline">
-        <!-- <p>You appear to be offline, that's okay, we can still do things...</p>
-        ... -->
-        </div>
-      </offline>
       <b-row class="rowp2" v-for="(item, index) in item_no" :key="index">
         <!-- {{item}} -->
 
@@ -137,24 +125,21 @@ export default {
     };
   },
   methods: {
-    handleConnectivityChange(status) {
-      console.log(status);
-      if(status){
-        this.offAndon = "Online"
-      }else{
-        this.offAndon = "Internet cannot connecting."
-      }
-    },
     update_sensor: function() {
       this.intv = setInterval(() => {
         axios
-          .post("http://167.172.66.170:3020/status", {
-            machine_id: this.machine_id
+          .post("http://localhost:3020/checknet", {
           })
           .then(response => {
-            //console.log(response.data.message);
+            if (response.data.success == "success"){
+              this.offAndon = "Online"
+              console.log("online");
+          axios
+            .post("http://localhost:3020/status", {
+              machine_id: this.machine_id
+            })
+            .then(response => {
             if (response.data.success == "success") {
-              //this.resp = response.data.message;
               this.work_order = [];
               this.item_no = [];
               this.item_name = [];
@@ -201,14 +186,21 @@ export default {
              alert("กรอกข้อมูลไม่ถูกต้อง");
             }
           });
+          }else{
+              this.offAndon = "Offline"
+              console.log("offline");
+          }
+          })
+          .catch(error => {
+          console.log(error);
+          this.offAndon = "Offline"
+          })
       }, 1000);
     },
     stop_downtime() {
       clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/downtime", {
-          // opn: this.$store.state.opn,
-          // workorder: this.$store.state.wo,
+        .post("http://localhost:3020/downtime", {
           downtime_code: "",
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
@@ -235,7 +227,7 @@ export default {
     logout() {
       clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/logout", {
+        .post("http://localhost:3020/logout", {
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
         })
@@ -253,6 +245,9 @@ export default {
   },
   beforeMount() {
     this.update_sensor();
+  },
+  beforeDestroy(){
+    clearInterval(this.intv)
   }
 };
 </script>

@@ -22,18 +22,12 @@
 
       <h2>{{offAndon}}</h2>
 
-        <offline @detected-condition="handleConnectivityChange">
-        <!-- Only renders when the device is online -->
+        <!-- <offline @detected-condition="handleConnectivityChange">
         <div slot="online">
-        <!-- <p>It looks like you're online! Here's all the things you can do...</p>
-        ... -->
         </div>
-        <!-- Only renders when the device is offline -->
         <div slot="offline">
-        <!-- <p>You appear to be offline, that's okay, we can still do things...</p>
-        ... -->
         </div>
-      </offline>
+      </offline> -->
       <b-row class="rowp2" v-for="(item, index) in item_no" :key="index">
         <b-col sm="8">
           <table>
@@ -130,21 +124,15 @@ export default {
       rout2: this.$store.state.ro2,
       wo3: this.$store.state.wo3,
       rout3: this.$store.state.ro3,
-      offAndon:null
+      offAndon:null,
+      intv:null
     };
   },
   methods: {
-     handleConnectivityChange(status) {
-      console.log(status);
-      if(status){
-        this.offAndon = "Online"
-      }else{
-        this.offAndon = "Internet cannot connecting."
-      }
-    },
     logout() {
+      clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/logout", {
+        .post("http://localhost:3020/logout", {
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
         })
@@ -168,23 +156,17 @@ export default {
         });
     },
     statrtjob() {
+      clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/ready", {
+        .post("http://localhost:3020/ready", {
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
-          // workorder: this.$store.state.wo,
-          // routing: this.$store.state.rout,
-          // opn: this.$store.state.opn,
         })
         .then(response => {
           //console.log(response.data.message[0]);
           if (response.data.success == "success") {
-            // this.item_no = response.data.itemNo;
-            // this.item_name = response.data.itemName;
-            // this.product_order = response.data.productOrder;
-            // this.receive_order = response.data.receiveOrder;
-            // this.remaining_order = response.data.remainingOrder;
             this.$router.push("/running");
+            
           } else {
            alert("กรอกข้อมูลไม่ถูกต้อง");
           }
@@ -194,16 +176,12 @@ export default {
       console.log("status");
       console.log(this.$store.state.wo);
       axios
-        .post("http://167.172.66.170:3020/status", {
+        .post("http://localhost:3020/status", {
           machine_id: this.$store.state.machine_id
-          //http://167.172.66.aaaa170:3020
-          //http://167.172.66.170:3020
         })
         .then(response => {
           console.log(response.data.message[0]);
           if (response.data.success == "success") {
-            // this.item_no = response.data.message[0].id_txt;
-            // this.item_name = response.data.message[0].address;
             this.work_order = [];
             this.item_no = [];
             this.item_name = [];
@@ -246,8 +224,9 @@ export default {
         });
     },
     endjob() {
+       clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/stop", {
+        .post("http://localhost:3020/stop", {
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
         })
@@ -271,10 +250,36 @@ export default {
            alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
-    }
+    },
+    net_val: function() {
+    this.intv = setInterval(() => {
+      axios
+        .post("http://localhost:3020/checknet", {
+        })
+        .then(response => {
+          console.log(response)
+          if (response.data.success == "success"){
+            this.offAndon = "Online"
+            console.log("online");
+            this.status();
+          }else{
+            this.offAndon = "Offline"
+            console.log("offline");
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          this.offAndon = "Offline"
+          
+        })
+                   }, 1000);
+  }
   },
   beforeMount() {
-    this.status();
+    this.net_val();
+  },
+  beforeDestroy(){
+    clearInterval(this.intv)
   }
 };
 </script>

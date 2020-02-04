@@ -11,19 +11,6 @@
     <b-container>
       <br/>
       <h2>{{offAndon}}</h2>
-
-        <offline @detected-condition="handleConnectivityChange">
-        <!-- Only renders when the device is online -->
-        <div slot="online">
-        <!-- <p>It looks like you're online! Here's all the things you can do...</p>
-        ... -->
-        </div>
-        <!-- Only renders when the device is offline -->
-        <div slot="offline">
-        <!-- <p>You appear to be offline, that's okay, we can still do things...</p>
-        ... -->
-        </div>
-      </offline>
       <b-row>
         <h2>เหตุผล (Issue) :</h2>
       </b-row>
@@ -68,39 +55,20 @@ export default {
     return {
       reason: "",
       machine_id: this.$store.state.machine_id,
-      offAndon:null
+      offAndon:null,
+      intv:null
     };
   },
   methods: {
-    handleConnectivityChange(status) {
-      console.log(status);
-      if(status){
-        this.offAndon = "Online"
-      }else{
-        this.offAndon = "Internet cannot connecting."
-      }
-    },
     back() {
+      clearInterval(this.intv);
       this.$router.push("/running");
     },
-    // startdowntime() {
-    //   axios
-    //     .post("http://167.172.66.170:3020:3020:3020/downtime", {
-    //       machine_id: this.$store.state.machine_id
-    //     })
-    //     .then(response => {
-    //       console.log(response.data.message);
-    //       if (response.data.success == "success") {
-    //         console.log("send downtime");
-    //       } else {
-    //        alert("กรอกข้อมูลไม่ถูกต้อง");
-    //       }
-    //     });
-    // },
     downtimereason() {
+      clearInterval(this.intv)
       console.log(this.$store.state.machine_id);
       axios
-        .post("http://167.172.66.170:3020/updateDowntime2", {
+        .post("http://localhost:3020/updateDowntime2", {
           machine_id: this.$store.state.machine_id,
           issue: this.reason,
           workorder: this.$store.state.wo,
@@ -118,12 +86,36 @@ export default {
           }
         });
     },
+     net_val: function() {
+    this.intv = setInterval(() => {
+      axios
+        .post("http://localhost:3020/checknet", {
+        })
+        .then(response => {
+          console.log(response)
+          if (response.data.success == "success"){
+            this.offAndon = "Online"
+            console.log("online");
+          }else{
+            this.offAndon = "Offline"
+            console.log("offline");
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          this.offAndon = "Offline"
+        })
+                   }, 1000);
+    },
     clearreason() {
       this.reason = "";
     }
   },
   beforeMount() {
-    // this.startdowntime();
+    this.net_val();
+  },
+  beforeDestroy(){
+    clearInterval(this.intv)
   }
 };
 </script>

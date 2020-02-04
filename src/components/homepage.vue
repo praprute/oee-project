@@ -11,19 +11,6 @@
     <b-container fluid>
 
       <h2>{{offAndon}}</h2>
-
-        <offline @detected-condition="handleConnectivityChange">
-        <!-- Only renders when the device is online -->
-        <div slot="online">
-        <!-- <p>It looks like you're online! Here's all the things you can do...</p>
-        ... -->
-        </div>
-        <!-- Only renders when the device is offline -->
-        <div slot="offline">
-        <!-- <p>You appear to be offline, that's okay, we can still do things...</p>
-        ... -->
-        </div>
-      </offline>
       <br/>
       <b-row class="my-1">
         <b-col md="5">
@@ -167,19 +154,11 @@ export default {
       oid:    this.$store.state.oid,
       machine_id: this.$store.state.machine_id,
       status_login: 1,
-      offAndon:null
+      offAndon:null,
+      intv:null
     };
   },
-  //http://167.172.66ee.170
   methods: {
-    handleConnectivityChange(status) {
-      console.log(status);
-      if(status){
-        this.offAndon = "Online"
-      }else{
-        this.offAndon = "Internet cannot connecting."
-      }
-    },
     login() {
       var workorder = [];
       var routing = [];
@@ -228,7 +207,7 @@ export default {
 
       if(this.status_login != 0){
       axios
-        .post("http://167.172.66.170:3020/login", {
+        .post("http://localhost:3020/login", {
           machine_id: this.machine_id,
           workorder: workorder,
           routing: routing,
@@ -248,6 +227,7 @@ export default {
             this.$store.state.ro2 =  this.rout2
             this.$store.state.wo3 =  this.wo3
             this.$store.state.ro3 =  this.rout3
+             clearInterval(this.intv);
             this.$router.push("/ready");
           } else {
             alert(response.data.message_th);
@@ -255,43 +235,60 @@ export default {
         });
       }
     },
+    net_val: function() {
+    this.intv = setInterval(() => {
+      axios
+        .post("http://localhost:3020/checknet", {
+        })
+        .then(response => {
+          console.log(response)
+          if (response.data.success == "success"){
+            this.offAndon = "Online"
+            console.log("online");
+          }else{
+            this.offAndon = "Offline"
+            console.log("offline");
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          this.offAndon = "Offline"
+        })
+                   }, 1000);
+    },
+    clearreason() {
+      this.codedefect = "";
+      this.input = "";
+    },
     cleartextw0() {
-      //this.woo.splice(0, 1, null);
       this.wo = null;
       this.$store.state.wo0 = null;
     },
     cleartextr0() {
-      //this.rout.splice(0, 1, null);
       this.rout0 = null;
       this.$store.state.ro0 = null;
     },
     cleartextw1() {
-      //this.wo.splice(1, 1, null);
       this.wo1 = null;
       this.$store.state.wo1 = null;
     },
     cleartextr1() {
-      //this.rout.splice(1, 1, null);
       this.rout1 = null;
       this.$store.state.ro1 = null;
     },
     cleartextw2() {
-      //this.wo.splice(2, 1, null);
       this.wo2 = null;
       this.$store.state.wo2 = null;
     },
     cleartextr2() {
-      //this.rout.splice(2, 1, null);
       this.rout2 = null;
       this.$store.state.ro2 = null;
     },
     cleartextw3() {
-      //this.wo.splice(3, 1, null);
       this.wo3 = null;
       this.$store.state.wo3 = null;
     },
     cleartextr3() {
-      //this.rout.splice(3, 1, null);
       this.rout3 = null;
       this.$store.state.ro3 = null;
     },
@@ -299,13 +296,11 @@ export default {
       this.oid = "";
     },
     stop_downtime() {
+      clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/downtime2", {
+        .post("http://localhost:3020/downtime2", {
           machine_id: this.$store.state.machine_id,
-          // opn: this.$store.state.opn,
-          // workorder: this.$store.state.wo,
           downtime_code: null
-          //employee_id: this.oid
         })
         .then(response => {
           console.log(response.data.message);
@@ -318,6 +313,12 @@ export default {
           }
         });
     }
+  },
+  beforeMount(){
+    this.net_val();
+  },
+  beforeDestroy(){
+    clearInterval(this.intv);
   }
 };
 </script>
