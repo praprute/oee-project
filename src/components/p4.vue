@@ -120,7 +120,7 @@ export default {
     },
     checkWo(){
       axios
-        .post("http://localhost:3020/wo", {
+        .post("http://167.172.66.170:3020/wo", {
           machine_id: this.$store.state.machine_id
         })
         .then(response => {
@@ -158,7 +158,7 @@ export default {
       }
       clearInterval(this.intv)
       axios
-        .post("http://localhost:3020/updateDefect", {
+        .post("http://167.172.66.170:3020/updateDefect", {
           machine_id: this.$store.state.machine_id,
           issue: this.codedefect,
           qty: this.input,
@@ -181,7 +181,7 @@ export default {
     net_val: function() {
     this.intv = setInterval(() => {
       axios
-        .post("http://localhost:3020/checknet", {
+        .post("http://167.172.66.170:3020/checknet", {
         })
         .then(response => {
           console.log(response)

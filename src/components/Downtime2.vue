@@ -68,7 +68,7 @@ export default {
       clearInterval(this.intv)
       console.log(this.$store.state.machine_id);
       axios
-        .post("http://localhost:3020/updateDowntime2", {
+        .post("http://167.172.66.170:3020/updateDowntime2", {
           machine_id: this.$store.state.machine_id,
           issue: this.reason,
           workorder: this.$store.state.wo,
@@ -89,7 +89,7 @@ export default {
      net_val: function() {
     this.intv = setInterval(() => {
       axios
-        .post("http://localhost:3020/checknet", {
+        .post("http://167.172.66.170:3020/checknet", {
         })
         .then(response => {
           console.log(response)

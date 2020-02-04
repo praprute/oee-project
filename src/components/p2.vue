@@ -132,7 +132,7 @@ export default {
     logout() {
       clearInterval(this.intv);
       axios
-        .post("http://localhost:3020/logout", {
+        .post("http://167.172.66.170:3020/logout", {
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
         })
@@ -158,7 +158,7 @@ export default {
     statrtjob() {
       clearInterval(this.intv);
       axios
-        .post("http://localhost:3020/ready", {
+        .post("http://167.172.66.170:3020/ready", {
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
         })
@@ -176,7 +176,7 @@ export default {
       console.log("status");
       console.log(this.$store.state.wo);
       axios
-        .post("http://localhost:3020/status", {
+        .post("http://167.172.66.170:3020/status", {
           machine_id: this.$store.state.machine_id
         })
         .then(response => {
@@ -226,7 +226,7 @@ export default {
     endjob() {
        clearInterval(this.intv);
       axios
-        .post("http://localhost:3020/stop", {
+        .post("http://167.172.66.170:3020/stop", {
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
         })
@@ -254,7 +254,7 @@ export default {
     net_val: function() {
     this.intv = setInterval(() => {
       axios
-        .post("http://localhost:3020/checknet", {
+        .post("http://167.172.66.170:3020/checknet", {
         })
         .then(response => {
           console.log(response)
