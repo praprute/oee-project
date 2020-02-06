@@ -5,12 +5,17 @@
         <b-nav-item>
           <h1>HOME</h1>
         </b-nav-item>
+        <b-nav-item left v-if="offAndon == 'Offline' ">
+           <h2 class="status-off-on" style="color: red;">{{offAndon}}</h2>
+        </b-nav-item>
+        <b-nav-item left v-else>
+           <h2 class="status-off-on" style="color: #3fd421;">{{offAndon}}</h2>
+        </b-nav-item>
       </b-nav>
     </div>
 
     <b-container fluid>
 
-      <h2>{{offAndon}}</h2>
       <br/>
       <b-row class="my-1">
         <b-col md="5">
@@ -365,6 +370,13 @@ label.labelhome {
 .nav {
   background-color: #013894;
   padding: 5px;
+}
+
+.nav h2{
+padding-left: 300px;
+align-items: center;
+text-align: center;
+padding-top: 10px
 }
 
 a.nav-link {

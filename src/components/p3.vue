@@ -15,6 +15,13 @@
           <h1 id="hrunning">RUNNING</h1>
         </b-nav-item>
 
+        <b-nav-item left v-if="offAndon == 'Offline' ">
+           <h2 class="status-off-on-p3" style="color: red;">{{offAndon}}</h2>
+        </b-nav-item>
+        <b-nav-item left v-else>
+           <h2 class="status-off-on-p3" style="color: #3fd421;">{{offAndon}}</h2>
+        </b-nav-item>
+
         <b-nav-item right>
           <img
             class="logoutRight"
@@ -28,8 +35,6 @@
     </div>
     <b-container class="bv-example-row">
       <br/>
-
-      <h2>{{offAndon}}</h2>
 
       <b-row class="rowp2" v-for="(item, index) in item_no" :key="index">
         <!-- {{item}} -->
@@ -268,9 +273,14 @@ a.nav-link h1#hrunning {
 }
 
 a.nav-link img.logoutRight {
-  margin-left: 399px;
+  margin-left: 163px;
   margin-top: -18px;
   padding-top: 20px;
+}
+
+.nav h2.status-off-on-p3{
+  padding-left: 100px;
+  padding-top: 25px;
 }
 
 img.arrowp3 {

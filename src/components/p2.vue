@@ -5,6 +5,13 @@
         <b-nav-item>
           <h1 class="h1p1">READY</h1>
         </b-nav-item>
+        
+        <b-nav-item left v-if="offAndon == 'Offline' ">
+           <h2 class="status-off-on-p2" style="color: red;">{{offAndon}}</h2>
+        </b-nav-item>
+        <b-nav-item left v-else>
+           <h2 class="status-off-on-p2" style="color: #3fd421;">{{offAndon}}</h2>
+        </b-nav-item>
 
         <b-nav-item right>
           <img
@@ -19,15 +26,6 @@
     </div>
     <b-container class="bv-example-row">
       <br/>
-
-      <h2>{{offAndon}}</h2>
-
-        <!-- <offline @detected-condition="handleConnectivityChange">
-        <div slot="online">
-        </div>
-        <div slot="offline">
-        </div>
-      </offline> -->
       <b-row class="rowp2" v-for="(item, index) in item_no" :key="index">
         <b-col sm="8">
           <table>
@@ -308,12 +306,17 @@ td {
   padding-bottom: 40px;
 }
 
+.nav h2.status-off-on-p2{
+  padding-left: 220px;
+  padding-top: 25px
+}
+
 .col-sm-3 {
   padding-top: 50px;
 }
 
 a.nav-link img.logout {
-  margin-left: 540px;
+  margin-left: 190px;
   margin-top: -18px;
   padding-top: 20px;
 }

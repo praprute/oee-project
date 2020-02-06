@@ -5,12 +5,17 @@
         <b-nav-item>
           <h1>STOP / DOWN TIME</h1>
         </b-nav-item>
+        <b-nav-item left v-if="offAndon == 'Offline' ">
+           <h2 class="status-off-on-p3" style="color: red;">{{offAndon}}</h2>
+        </b-nav-item>
+        <b-nav-item left v-else>
+           <h2 class="status-off-on-p3" style="color: #3fd421;">{{offAndon}}</h2>
+        </b-nav-item>
       </b-nav>
     </div>
 
     <b-container>
       <br/>
-      <h2>{{offAndon}}</h2>
       <b-row>
         <h2>เหตุผล (Issue) :</h2>
       </b-row>
