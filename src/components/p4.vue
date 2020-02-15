@@ -11,22 +11,21 @@
             @click="backpage()"
           />
         </b-nav-item>
-        <b-nav-item >
+        <b-nav-item>
           <h1 id="hdefect">DEFECT</h1>
         </b-nav-item>
 
         <b-nav-item left v-if="offAndon == 'Offline' ">
-           <h2 class="status-off-on-p4" style="color: red;">{{offAndon}}</h2>
+          <h2 class="status-off-on-p4" style="color: red;">{{offAndon}}</h2>
         </b-nav-item>
         <b-nav-item left v-else>
-           <h2 class="status-off-on-p4" style="color: #3fd421;">{{offAndon}}</h2>
+          <h2 class="status-off-on-p4" style="color: #3fd421;">{{offAndon}}</h2>
         </b-nav-item>
-        
       </b-nav>
     </div>
 
     <b-container>
-       <br/>
+      <br />
       <b-row>
         <b-col md="6">
           <h4>สาเหตุของเสีย (Defect Issue)</h4>
@@ -56,7 +55,6 @@
           </b-row>
           <b-row>
             <b-form-select v-model="selected" :options="woOptions" size="lg"></b-form-select>
-            
           </b-row>
         </b-col>
 
@@ -86,10 +84,10 @@
 <script>
 //import SimpleKeyboard from "./SimpleKeyboard";
 import axios from "axios";
-import offline from 'v-offline';
+import offline from "v-offline";
 
 export default {
-  components:{
+  components: {
     offline
   },
   data() {
@@ -104,9 +102,9 @@ export default {
       wo1: this.$store.state.wo1,
       wo2: this.$store.state.wo2,
       wo3: this.$store.state.wo3,
-      offAndon:null,
+      offAndon: null,
       selected: "",
-      intv:null
+      intv: null
     };
   },
   methods: {
@@ -125,9 +123,9 @@ export default {
       clearInterval(this.intv);
       this.$router.push("/running");
     },
-    checkWo(){
+    checkWo() {
       axios
-        .post("http://167.172.66.170:3020/wo", {
+        .post("http://localhost:3020/wo", {
           machine_id: this.$store.state.machine_id
         })
         .then(response => {
@@ -136,22 +134,30 @@ export default {
           console.log("remes");
           if (response.data.success == "success") {
             if (response.data.message[0].wo1 != null) {
-              if(this.woOptions.includes(response.data.message[0].wo1) == false){
+              if (
+                this.woOptions.includes(response.data.message[0].wo1) == false
+              ) {
                 this.woOptions.push(response.data.message[0].wo1);
               }
             }
             if (response.data.message[0].wo2 != null) {
-              if(this.woOptions.includes(response.data.message[0].wo2) == false){
+              if (
+                this.woOptions.includes(response.data.message[0].wo2) == false
+              ) {
                 this.woOptions.push(response.data.message[0].wo2);
               }
             }
             if (response.data.message[0].wo3 != null) {
-             if(this.woOptions.includes(response.data.message[0].wo3) == false){
+              if (
+                this.woOptions.includes(response.data.message[0].wo3) == false
+              ) {
                 this.woOptions.push(response.data.message[0].wo3);
               }
             }
             if (response.data.message[0].wo4 != null) {
-              if(this.woOptions.includes(response.data.message[0].wo4) == false){
+              if (
+                this.woOptions.includes(response.data.message[0].wo4) == false
+              ) {
                 this.woOptions.push(response.data.message[0].wo4);
               }
             }
@@ -163,9 +169,9 @@ export default {
         alert("กรุณาเลือก Work Order");
         return;
       }
-      clearInterval(this.intv)
+      clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/updateDefect", {
+        .post("http://localhost:3020/updateDefect", {
           machine_id: this.$store.state.machine_id,
           issue: this.codedefect,
           qty: this.input,
@@ -181,30 +187,29 @@ export default {
             this.$router.push("/running"); //go(-1)
           } else {
             //alert(response.data.message);
-            alert("กรอกข้อมูลไม่ถูกต้อง")
+            alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     },
     net_val: function() {
-    this.intv = setInterval(() => {
-      axios
-        .post("http://167.172.66.170:3020/checknet", {
-        })
-        .then(response => {
-          console.log(response)
-          if (response.data.success == "success"){
-            this.offAndon = "Online"
-            console.log("online");
-          }else{
-            this.offAndon = "Offline"
-            console.log("offline");
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          this.offAndon = "Offline"
-        })
-                   }, 1000);
+      this.intv = setInterval(() => {
+        axios
+          .post("http://localhost:3020/checknet", {})
+          .then(response => {
+            console.log(response);
+            if (response.data.success == "success") {
+              this.offAndon = "Online";
+              console.log("online");
+            } else {
+              this.offAndon = "Offline";
+              console.log("offline");
+            }
+          })
+          .catch(error => {
+            console.log(error);
+            this.offAndon = "Offline";
+          });
+      }, 1000);
     },
     clearreason() {
       this.codedefect = "";
@@ -215,8 +220,8 @@ export default {
     this.checkWo();
     this.net_val();
   },
-  beforeDestroy(){
-    clearInterval(this.intv)
+  beforeDestroy() {
+    clearInterval(this.intv);
   }
 
   //15
@@ -231,15 +236,15 @@ export default {
   grid-auto-rows: minmax(50px, auto);
 }
 
-.nav h2.status-off-on-p4{
+.nav h2.status-off-on-p4 {
   padding-left: 130px;
-  padding-top: 10px
+  padding-top: 10px;
 }
 
 .btnp4 {
   background-color: #013894;
   color: white;
-  margin: 10px;  
+  margin: 10px;
   padding: 10%;
   font-size: 20px;
   text-align: center;
@@ -288,14 +293,14 @@ img.arrowp4 {
   margin-top: 10px;
 }
 
-a.nav-link h1#hdefect{
+a.nav-link h1#hdefect {
   margin-top: 10px;
   margin-left: -20px;
   color: rgb(255, 255, 255);
 }
 
-ul.nav.navp4{
-  padding:10px;
+ul.nav.navp4 {
+  padding: 10px;
 }
 
 /* 

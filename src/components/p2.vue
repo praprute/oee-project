@@ -5,12 +5,12 @@
         <b-nav-item>
           <h1 class="h1p1">READY</h1>
         </b-nav-item>
-        
+
         <b-nav-item left v-if="offAndon == 'Offline' ">
-           <h2 class="status-off-on-p2" style="color: red;">{{offAndon}}</h2>
+          <h2 class="status-off-on-p2" style="color: red;">{{offAndon}}</h2>
         </b-nav-item>
         <b-nav-item left v-else>
-           <h2 class="status-off-on-p2" style="color: #3fd421;">{{offAndon}}</h2>
+          <h2 class="status-off-on-p2" style="color: #3fd421;">{{offAndon}}</h2>
         </b-nav-item>
 
         <b-nav-item right>
@@ -25,7 +25,7 @@
       </b-nav>
     </div>
     <b-container class="bv-example-row">
-      <br/>
+      <br />
       <b-row class="rowp2" v-for="(item, index) in item_no" :key="index">
         <b-col sm="8">
           <table>
@@ -87,10 +87,10 @@
 
 <script>
 import axios from "axios";
-import offline from 'v-offline';
+import offline from "v-offline";
 
 export default {
-  components:{
+  components: {
     offline
   },
   data() {
@@ -122,15 +122,15 @@ export default {
       rout2: this.$store.state.ro2,
       wo3: this.$store.state.wo3,
       rout3: this.$store.state.ro3,
-      offAndon:null,
-      intv:null
+      offAndon: null,
+      intv: null
     };
   },
   methods: {
     logout() {
       clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/logout", {
+        .post("http://localhost:3020/logout", {
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
         })
@@ -140,23 +140,25 @@ export default {
             this.$store.state.oid = "";
             this.$store.state.rout_name = "";
             this.$router.push("/home");
-            console.log([this.$store.state.wo0,
-                        this.$store.state.ro0,
-                        this.$store.state.wo1,
-                        this.$store.state.ro1,
-                        this.$store.state.wo2,
-                        this.$store.state.ro2,
-                        this.$store.state.wo3,
-                        this.$store.state.ro3])
+            console.log([
+              this.$store.state.wo0,
+              this.$store.state.ro0,
+              this.$store.state.wo1,
+              this.$store.state.ro1,
+              this.$store.state.wo2,
+              this.$store.state.ro2,
+              this.$store.state.wo3,
+              this.$store.state.ro3
+            ]);
           } else {
-           alert("กรอกข้อมูลไม่ถูกต้อง");
+            alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     },
     statrtjob() {
       clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/ready", {
+        .post("http://localhost:3020/ready", {
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
         })
@@ -164,9 +166,8 @@ export default {
           //console.log(response.data.message[0]);
           if (response.data.success == "success") {
             this.$router.push("/running");
-            
           } else {
-           alert("กรอกข้อมูลไม่ถูกต้อง");
+            alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     },
@@ -174,7 +175,7 @@ export default {
       console.log("status");
       console.log(this.$store.state.wo);
       axios
-        .post("http://167.172.66.170:3020/status", {
+        .post("http://localhost:3020/status", {
           machine_id: this.$store.state.machine_id
         })
         .then(response => {
@@ -217,14 +218,14 @@ export default {
               this.$store.state.opn.push(response.data.message[index].opn);
             }
           } else {
-           alert("กรอกข้อมูลไม่ถูกต้อง");
+            alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     },
     endjob() {
-       clearInterval(this.intv);
+      clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/stop", {
+        .post("http://localhost:3020/stop", {
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
         })
@@ -232,7 +233,7 @@ export default {
           console.log(response.data.message);
           if (response.data.success == "success") {
             this.$store.state.oid = null;
-            this.$store.state.wo  = [];
+            this.$store.state.wo = [];
             this.$store.state.rout_name = null;
             this.$store.state.wo0 = null;
             this.$store.state.ro0 = null;
@@ -245,39 +246,37 @@ export default {
             this.$router.push("/home");
             console.log("success");
           } else {
-           alert("กรอกข้อมูลไม่ถูกต้อง");
+            alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     },
     net_val: function() {
-    this.intv = setInterval(() => {
-      axios
-        .post("http://167.172.66.170:3020/checknet", {
-        })
-        .then(response => {
-          console.log(response)
-          if (response.data.success == "success"){
-            this.offAndon = "Online"
-            console.log("online");
-            this.status();
-          }else{
-            this.offAndon = "Offline"
-            console.log("offline");
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          this.offAndon = "Offline"
-          
-        })
-                   }, 1000);
-  }
+      this.intv = setInterval(() => {
+        axios
+          .post("http://localhost:3020/checknet", {})
+          .then(response => {
+            console.log(response);
+            if (response.data.success == "success") {
+              this.offAndon = "Online";
+              console.log("online");
+              this.status();
+            } else {
+              this.offAndon = "Offline";
+              console.log("offline");
+            }
+          })
+          .catch(error => {
+            console.log(error);
+            this.offAndon = "Offline";
+          });
+      }, 1000);
+    }
   },
   beforeMount() {
     this.net_val();
   },
-  beforeDestroy(){
-    clearInterval(this.intv)
+  beforeDestroy() {
+    clearInterval(this.intv);
   }
 };
 </script>
@@ -306,9 +305,9 @@ td {
   padding-bottom: 40px;
 }
 
-.nav h2.status-off-on-p2{
+.nav h2.status-off-on-p2 {
   padding-left: 220px;
-  padding-top: 25px
+  padding-top: 25px;
 }
 
 .col-sm-3 {

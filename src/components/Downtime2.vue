@@ -6,16 +6,16 @@
           <h1>STOP / DOWN TIME</h1>
         </b-nav-item>
         <b-nav-item left v-if="offAndon == 'Offline' ">
-           <h2 class="status-off-on-p3" style="color: red;">{{offAndon}}</h2>
+          <h2 class="status-off-on-p3" style="color: red;">{{offAndon}}</h2>
         </b-nav-item>
         <b-nav-item left v-else>
-           <h2 class="status-off-on-p3" style="color: #3fd421;">{{offAndon}}</h2>
+          <h2 class="status-off-on-p3" style="color: #3fd421;">{{offAndon}}</h2>
         </b-nav-item>
       </b-nav>
     </div>
 
     <b-container>
-      <br/>
+      <br />
       <b-row>
         <h2>เหตุผล (Issue) :</h2>
       </b-row>
@@ -50,18 +50,18 @@
 
 <script>
 import axios from "axios";
-import offline from 'v-offline';
+import offline from "v-offline";
 
 export default {
-  components:{
+  components: {
     offline
   },
   data() {
     return {
       reason: "",
       machine_id: this.$store.state.machine_id,
-      offAndon:null,
-      intv:null
+      offAndon: null,
+      intv: null
     };
   },
   methods: {
@@ -70,10 +70,10 @@ export default {
       this.$router.push("/running");
     },
     downtimereason() {
-      clearInterval(this.intv)
+      clearInterval(this.intv);
       console.log(this.$store.state.machine_id);
       axios
-        .post("http://167.172.66.170:3020/updateDowntime2", {
+        .post("http://localhost:3020/updateDowntime2", {
           machine_id: this.$store.state.machine_id,
           issue: this.reason,
           workorder: this.$store.state.wo,
@@ -91,26 +91,25 @@ export default {
           }
         });
     },
-     net_val: function() {
-    this.intv = setInterval(() => {
-      axios
-        .post("http://167.172.66.170:3020/checknet", {
-        })
-        .then(response => {
-          console.log(response)
-          if (response.data.success == "success"){
-            this.offAndon = "Online"
-            console.log("online");
-          }else{
-            this.offAndon = "Offline"
-            console.log("offline");
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          this.offAndon = "Offline"
-        })
-                   }, 1000);
+    net_val: function() {
+      this.intv = setInterval(() => {
+        axios
+          .post("http://localhost:3020/checknet", {})
+          .then(response => {
+            console.log(response);
+            if (response.data.success == "success") {
+              this.offAndon = "Online";
+              console.log("online");
+            } else {
+              this.offAndon = "Offline";
+              console.log("offline");
+            }
+          })
+          .catch(error => {
+            console.log(error);
+            this.offAndon = "Offline";
+          });
+      }, 1000);
     },
     clearreason() {
       this.reason = "";
@@ -119,8 +118,8 @@ export default {
   beforeMount() {
     this.net_val();
   },
-  beforeDestroy(){
-    clearInterval(this.intv)
+  beforeDestroy() {
+    clearInterval(this.intv);
   }
 };
 </script>

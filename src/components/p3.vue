@@ -16,10 +16,10 @@
         </b-nav-item>
 
         <b-nav-item left v-if="offAndon == 'Offline' ">
-           <h2 class="status-off-on-p3" style="color: red;">{{offAndon}}</h2>
+          <h2 class="status-off-on-p3" style="color: red;">{{offAndon}}</h2>
         </b-nav-item>
         <b-nav-item left v-else>
-           <h2 class="status-off-on-p3" style="color: #3fd421;">{{offAndon}}</h2>
+          <h2 class="status-off-on-p3" style="color: #3fd421;">{{offAndon}}</h2>
         </b-nav-item>
 
         <b-nav-item right>
@@ -34,7 +34,7 @@
       </b-nav>
     </div>
     <b-container class="bv-example-row">
-      <br/>
+      <br />
 
       <b-row class="rowp2" v-for="(item, index) in item_no" :key="index">
         <!-- {{item}} -->
@@ -98,10 +98,10 @@
 
 <script>
 import axios from "axios";
-import offline from 'v-offline';
+import offline from "v-offline";
 
 export default {
-  components:{
+  components: {
     offline
   },
   data() {
@@ -126,86 +126,90 @@ export default {
       machine_id: this.$store.state.machine_id,
       remark: ["loading"],
       intv: null,
-      offAndon:null
+      offAndon: null,
+      employee_id: this.$store.state.oid
     };
   },
   methods: {
     update_sensor: function() {
       this.intv = setInterval(() => {
         axios
-          .post("http://167.172.66.170:3020/checknet", {
-          })
+          .post("http://localhost:3020/checknet", {})
           .then(response => {
-            if (response.data.success == "success"){
-              this.offAndon = "Online"
-              console.log("online");
-          axios
-            .post("http://167.172.66.170:3020/status", {
-              machine_id: this.machine_id
-            })
-            .then(response => {
             if (response.data.success == "success") {
-              this.work_order = [];
-              this.item_no = [];
-              this.item_name = [];
-              this.rout_name = [];
-              (this.product_order = []),
-                (this.receive_order = []),
-                (this.remaining_order = []),
-                (this.remark = []);
-              for (
-                let index = 0;
-                index < response.data.message.length;
-                index++
-              ) {
-                this.work_order.push(response.data.message[index].wo);
-                this.item_no.push(response.data.message[index].itemNo);
-                this.item_name.push(response.data.message[index].itemName);
-                this.product_order.push(
-                  parseFloat(
-                    Math.round(
-                      response.data.message[index].productOrder * 100
-                    ) / 100
-                  ).toFixed(2)
-                );
-                this.receive_order.push(
-                  parseFloat(
-                    Math.round(
-                      response.data.message[index].receiveOrder * 100
-                    ) / 100
-                  ).toFixed(2)
-                );
-                this.remaining_order.push(
-                  parseFloat(
-                    Math.round(
-                      response.data.message[index].remainingOrder * 100
-                    ) / 100
-                  ).toFixed(2)
-                );
-                this.rout_name.push(response.data.message[index].routing);
-                //this.$store.state.rout_name = response.data.message[0].routing
-                this.remark.push(response.data.message[index].remark);
-                this.$store.state.opn.push(response.data.message[index].opn);
-              }
+              this.offAndon = "Online";
+              console.log("online");
+              axios
+                .post("http://localhost:3020/status", {
+                  machine_id: this.machine_id
+                })
+                .then(response => {
+                  if (response.data.success == "success") {
+                    this.work_order = [];
+                    this.item_no = [];
+                    this.item_name = [];
+                    this.rout_name = [];
+                    (this.product_order = []),
+                      (this.receive_order = []),
+                      (this.remaining_order = []),
+                      (this.remark = []);
+                    for (
+                      let index = 0;
+                      index < response.data.message.length;
+                      index++
+                    ) {
+                      this.work_order.push(response.data.message[index].wo);
+                      this.item_no.push(response.data.message[index].itemNo);
+                      this.item_name.push(
+                        response.data.message[index].itemName
+                      );
+                      this.product_order.push(
+                        parseFloat(
+                          Math.round(
+                            response.data.message[index].productOrder * 100
+                          ) / 100
+                        ).toFixed(2)
+                      );
+                      this.receive_order.push(
+                        parseFloat(
+                          Math.round(
+                            response.data.message[index].receiveOrder * 100
+                          ) / 100
+                        ).toFixed(2)
+                      );
+                      this.remaining_order.push(
+                        parseFloat(
+                          Math.round(
+                            response.data.message[index].remainingOrder * 100
+                          ) / 100
+                        ).toFixed(2)
+                      );
+                      this.rout_name.push(response.data.message[index].routing);
+                      //this.$store.state.rout_name = response.data.message[0].routing
+                      this.remark.push(response.data.message[index].remark);
+                      this.$store.state.opn.push(
+                        response.data.message[index].opn
+                      );
+                    }
+                  } else {
+                    alert("กรอกข้อมูลไม่ถูกต้อง");
+                  }
+                });
             } else {
-             alert("กรอกข้อมูลไม่ถูกต้อง");
-            }
-          });
-          }else{
-              this.offAndon = "Offline"
+              this.offAndon = "Offline";
               console.log("offline");
-          }
+            }
           })
           .catch(error => {
-          console.log(error);
-          this.offAndon = "Offline"
-          })
+            console.log(error);
+            this.offAndon = "Offline";
+          });
       }, 1000);
     },
     stop_downtime() {
       clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/downtime", {
+        .post("http://localhost:3020/downtime", {
           downtime_code: "",
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
@@ -216,7 +220,7 @@ export default {
             console.log("Stop");
             this.$router.push("/downtime");
           } else {
-           alert("กรอกข้อมูลไม่ถูกต้อง");
+            alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     },
@@ -232,7 +236,7 @@ export default {
     logout() {
       clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/logout", {
+        .post("http://localhost:3020/logout", {
           machine_id: this.$store.state.machine_id,
           employee_id: this.$store.state.oid
         })
@@ -243,7 +247,7 @@ export default {
             this.$store.state.oid = "";
             this.$router.push("/home");
           } else {
-           alert("กรอกข้อมูลไม่ถูกต้อง");
+            alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     }
@@ -251,8 +255,8 @@ export default {
   beforeMount() {
     this.update_sensor();
   },
-  beforeDestroy(){
-    clearInterval(this.intv)
+  beforeDestroy() {
+    clearInterval(this.intv);
   }
 };
 </script>
@@ -278,7 +282,7 @@ a.nav-link img.logoutRight {
   padding-top: 20px;
 }
 
-.nav h2.status-off-on-p3{
+.nav h2.status-off-on-p3 {
   padding-left: 100px;
   padding-top: 25px;
 }

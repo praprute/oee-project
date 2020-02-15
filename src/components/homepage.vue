@@ -6,17 +6,16 @@
           <h1>HOME</h1>
         </b-nav-item>
         <b-nav-item left v-if="offAndon == 'Offline' ">
-           <h2 class="status-off-on" style="color: red;">{{offAndon}}</h2>
+          <h2 class="status-off-on" style="color: red;">{{offAndon}}</h2>
         </b-nav-item>
         <b-nav-item left v-else>
-           <h2 class="status-off-on" style="color: #3fd421;">{{offAndon}}</h2>
+          <h2 class="status-off-on" style="color: #3fd421;">{{offAndon}}</h2>
         </b-nav-item>
       </b-nav>
     </div>
 
     <b-container fluid>
-
-      <br/>
+      <br />
       <b-row class="my-1">
         <b-col md="5">
           <label class="labelhome">เลขที่ใบสั่งผลิต (Work Order 1):</label>
@@ -138,29 +137,29 @@
 
 <script>
 import axios from "axios";
-import offline from 'v-offline';
+import offline from "v-offline";
 
 export default {
-  components:{
+  components: {
     offline
   },
   data() {
     return {
-      woo:    this.$store.state.wo,
-      roo:    this.$store.state.rout,
-      wo:     this.$store.state.wo0,
-      rout0:  this.$store.state.ro0,
-      wo1:    this.$store.state.wo1,
-      rout1:  this.$store.state.ro1,
-      wo2:    this.$store.state.wo2,
-      rout2:  this.$store.state.ro2,
-      wo3:    this.$store.state.wo3,
-      rout3:  this.$store.state.ro3,
-      oid:    this.$store.state.oid,
+      woo: this.$store.state.wo,
+      roo: this.$store.state.rout,
+      wo: this.$store.state.wo0,
+      rout0: this.$store.state.ro0,
+      wo1: this.$store.state.wo1,
+      rout1: this.$store.state.ro1,
+      wo2: this.$store.state.wo2,
+      rout2: this.$store.state.ro2,
+      wo3: this.$store.state.wo3,
+      rout3: this.$store.state.ro3,
+      oid: this.$store.state.oid,
       machine_id: this.$store.state.machine_id,
       status_login: 1,
-      offAndon:null,
-      intv:null
+      offAndon: null,
+      intv: null
     };
   },
   methods: {
@@ -176,90 +175,88 @@ export default {
       routing.push(this.rout1);
       routing.push(this.rout2);
       routing.push(this.rout3);
-       this.status_login = 1;
+      this.status_login = 1;
 
       console.log(workorder);
       console.log(routing);
 
-      if(this.wo !== null){
-        if(this.rout0 == null){
-          alert("กรอกข้อมูลไม่ถูกต้อง")
+      if (this.wo != null) {
+        if (this.rout0 == null) {
+          alert("กรอกข้อมูลไม่ถูกต้อง");
           this.status_login = 0;
         }
       }
 
-      if(this.wo1 !== null){
-        if(this.rout1 == null){
-           alert("กรอกข้อมูลไม่ถูกต้อง")
-           this.status_login = 0;
-        }
-      }
-
-      if(this.wo2 !== null){
-        if(this.rout2 == null){
-          alert("กรอกข้อมูลไม่ถูกต้อง")
+      if (this.wo1 != null) {
+        if (this.rout1 == null) {
+          alert("กรอกข้อมูลไม่ถูกต้อง");
           this.status_login = 0;
         }
       }
 
-      if(this.wo3 !== null){
-        if(this.rout3 == null){
-          alert("กรอกข้อมูลไม่ถูกต้อง")
+      if (this.wo2 != null) {
+        if (this.rout2 == null) {
+          alert("กรอกข้อมูลไม่ถูกต้อง");
           this.status_login = 0;
         }
       }
 
+      if (this.wo3 != null) {
+        if (this.rout3 == null) {
+          alert("กรอกข้อมูลไม่ถูกต้อง");
+          this.status_login = 0;
+        }
+      }
 
-      if(this.status_login != 0){
-      axios
-        .post("http://167.172.66.170:3020/login", {
-          machine_id: this.machine_id,
-          workorder: workorder,
-          routing: routing,
-          operateId: this.oid
-        })
-        .then(response => {
-          console.log(response);
-          console.log(response.data.message);
-          if (response.data.success == "success") {
-            this.$store.state.oid = this.oid;
-            console.log(this.wo);
-            this.$store.state.wo0 =  this.wo
-            this.$store.state.ro0 =  this.rout0
-            this.$store.state.wo1 =  this.wo1
-            this.$store.state.ro1 =  this.rout1
-            this.$store.state.wo2 =  this.wo2 
-            this.$store.state.ro2 =  this.rout2
-            this.$store.state.wo3 =  this.wo3
-            this.$store.state.ro3 =  this.rout3
-             clearInterval(this.intv);
-            this.$router.push("/ready");
-          } else {
-            alert(response.data.message_th);
-          }
-        });
+      if (this.status_login != 0) {
+        axios
+          .post("http://localhost:3020/login", {
+            machine_id: this.machine_id,
+            workorder: workorder,
+            routing: routing,
+            operateId: this.oid
+          })
+          .then(response => {
+            console.log(response);
+            console.log(response.data.message);
+            if (response.data.success == "success") {
+              this.$store.state.oid = this.oid;
+              console.log(this.wo);
+              this.$store.state.wo0 = this.wo;
+              this.$store.state.ro0 = this.rout0;
+              this.$store.state.wo1 = this.wo1;
+              this.$store.state.ro1 = this.rout1;
+              this.$store.state.wo2 = this.wo2;
+              this.$store.state.ro2 = this.rout2;
+              this.$store.state.wo3 = this.wo3;
+              this.$store.state.ro3 = this.rout3;
+              clearInterval(this.intv);
+              this.$router.push("/ready");
+            } else {
+              alert(response.data.message_th);
+            }
+          });
       }
     },
     net_val: function() {
-    this.intv = setInterval(() => {
-      axios
-        .post("http://167.172.66.170:3020/checknet", {
-        })
-        .then(response => {
-          console.log(response)
-          if (response.data.success == "success"){
-            this.offAndon = "Online"
-            console.log("online");
-          }else{
-            this.offAndon = "Offline"
-            console.log("offline");
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          this.offAndon = "Offline"
-        })
-                   }, 1000);
+      this.intv = setInterval(() => {
+        axios
+          .post("http://localhost:3020/checknet", {})
+          .then(response => {
+            console.log(response);
+            if (response.data.success == "success") {
+              this.offAndon = "Online";
+              console.log("online");
+            } else {
+              this.offAndon = "Offline";
+              console.log("offline");
+            }
+          })
+          .catch(error => {
+            console.log(error);
+            this.offAndon = "Offline";
+          });
+      }, 1000);
     },
     clearreason() {
       this.codedefect = "";
@@ -303,7 +300,7 @@ export default {
     stop_downtime() {
       clearInterval(this.intv);
       axios
-        .post("http://167.172.66.170:3020/downtime2", {
+        .post("http://localhost:3020/downtime2", {
           machine_id: this.$store.state.machine_id,
           downtime_code: null
         })
@@ -314,15 +311,15 @@ export default {
             this.$store.state.oid = this.oid;
             this.$router.push("/Downtime2");
           } else {
-           alert("กรอกข้อมูลไม่ถูกต้อง");
+            alert("กรอกข้อมูลไม่ถูกต้อง");
           }
         });
     }
   },
-  beforeMount(){
+  beforeMount() {
     this.net_val();
   },
-  beforeDestroy(){
+  beforeDestroy() {
     clearInterval(this.intv);
   }
 };
@@ -372,11 +369,11 @@ label.labelhome {
   padding: 5px;
 }
 
-.nav h2{
-padding-left: 300px;
-align-items: center;
-text-align: center;
-padding-top: 10px
+.nav h2 {
+  padding-left: 300px;
+  align-items: center;
+  text-align: center;
+  padding-top: 10px;
 }
 
 a.nav-link {
