@@ -210,7 +210,7 @@ export default {
 
       if (this.status_login != 0) {
         axios
-          .post("http://localhost:3020/login", {
+          .post("http://167.172.66.170:3020/login", {
             machine_id: this.machine_id,
             workorder: workorder,
             routing: routing,
@@ -241,7 +241,7 @@ export default {
     net_val: function() {
       this.intv = setInterval(() => {
         axios
-          .post("http://localhost:3020/checknet", {})
+          .post("http://167.172.66.170:3020/checknet", {})
           .then(response => {
             console.log(response);
             if (response.data.success == "success") {
@@ -300,7 +300,7 @@ export default {
     stop_downtime() {
       clearInterval(this.intv);
       axios
-        .post("http://localhost:3020/downtime2", {
+        .post("http://167.172.66.170:3020/downtime2", {
           machine_id: this.$store.state.machine_id,
           downtime_code: null
         })
