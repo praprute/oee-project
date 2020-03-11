@@ -93,9 +93,6 @@ export default {
           }
         });
     },
-    clearreason() {
-      this.reason = "";
-    },
     net_val: function() {
       this.intv = setInterval(() => {
         axios
@@ -119,6 +116,7 @@ export default {
     clearreason() {
       this.codedefect = "";
       this.input = "";
+      this.reason = "";
     }
   },
   beforeMount() {
